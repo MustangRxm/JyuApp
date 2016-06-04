@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:shape="rectangle"
+
+    >
+    <!--<stroke android:width="2dp" />-->
+
+    <!--设置形状填充的颜色-->
+    <solid android:color="@color/cardview_dark_background"/>
+    <!--置形状的渐变颜色，可以是线性渐变、辐射渐变、扫描性渐变-->
+    <gradient android:type="linear"
+              android:startColor="#eae3e1"
+              android:endColor="#dadcdf"
+              android:angle="0"
+        />
+
+</shape>

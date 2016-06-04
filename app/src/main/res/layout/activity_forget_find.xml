@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_forget_find"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@mipmap/forget_find_backgroud"
+    android:layout_height="match_parent"
+    tools:context="com.stu.app.jyuapp.Activity.ForgetFindActivity">
+<!--<include layout="@layout/activity_forgetpwd"-->
+         <!--android:layout_width="match_parent"-->
+         <!--android:layout_height="match_parent"-->
+         <!--/>-->
+    <Button
+        android:alpha="0.8"
+        android:layout_width="60dp"
+        android:id="@+id/bt_forget_find_goback"
+        android:gravity="top|left"
+        android:background="@mipmap/ic_goback_red"
+        android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/pb_forget_find_wait"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:weightSum="1">
+
+
+        <ImageView
+            android:id="@+id/login_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:paddingTop="5dp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_login_forget_userPhoneNum_textInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:textColorHint="#db6968"
+                android:hint="请输入手机号">
+
+
+                <EditText
+                    android:id="@+id/et_login_forget_userPhoneNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textColor="#008972"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:inputType="number"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:layout_width="0dp"
+                android:alpha="0.7"
+                android:textColor="#ffffff"
+                android:background="#db6968"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="2.5"
+                android:id="@+id/bt_getmsg"
+                android:textSize="13sp"
+                android:text="获取短信"/>
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_login_forget_msgNum_textInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColorHint="#db6968"
+            android:hint="请输入验证码"
+            >
+
+            <EditText
+                android:id="@+id/et_login_forget_msgNum"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="#008972"
+                android:inputType="textPassword"
+
+                android:selectAllOnFocus="true"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_login_forget_userPassword_textInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColorHint="#db6968"
+            android:hint="请输入新的密码"
+            >
+
+            <EditText
+                android:id="@+id/et_login_forget_userPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="#008972"
+                android:inputType="textPassword"
+                />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_login_forget_userPasswordAgain_textInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColorHint="#db6968"
+            android:hint="请再次输入新的密码"
+            >
+
+            <EditText
+                android:id="@+id/et_login_forget_userPasswordAgain"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="#008972"
+                android:inputType="textPassword"
+                />
+        </android.support.design.widget.TextInputLayout>
+        <Button
+            android:id="@+id/bt_ok"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:alpha="0.7"
+            android:textColor="#ffffff"
+            android:background="#db6968"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:text="确定"/>
+
+
+    </LinearLayout>
+</RelativeLayout>
