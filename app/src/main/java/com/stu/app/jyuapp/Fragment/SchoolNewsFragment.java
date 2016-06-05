@@ -25,7 +25,7 @@ import com.stu.app.jyuapp.Domain.JYU_Important_News;
 import com.stu.app.jyuapp.EventOBJ.Date;
 import com.stu.app.jyuapp.EventOBJ.RequestNewsData;
 import com.stu.app.jyuapp.R;
-import com.stu.app.jyuapp.Utils.NewsUtils;
+import com.stu.app.jyuapp.Utils.getDataUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -142,7 +142,7 @@ private synchronized void  TimeSub(String year_month){
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void RequestNewsAgain(Date date) {
-        NewsUtils.getNewsData(getContext(), date.getTime());
+        getDataUtils.getNewsData(getContext(), date.getTime());
 
     }
 

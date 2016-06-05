@@ -47,7 +47,7 @@ public class myFragment extends Fragment {
 
 
 
-            
+
         }else {
             Glide.with(getContext()).load(jyuUser.getUserImage()).into(iv_user_info_headPortrait);
             if (TextUtils.isEmpty(jyuUser.getUserNickname())){

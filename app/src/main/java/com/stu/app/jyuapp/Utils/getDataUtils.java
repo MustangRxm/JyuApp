@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.stu.app.jyuapp.Domain.JYU_Important_News;
+import com.stu.app.jyuapp.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.EventOBJ.RequestNewsData;
+import com.stu.app.jyuapp.EventOBJ.RequestSubscriptionFind;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -19,8 +21,24 @@ import cn.bmob.v3.listener.FindListener;
  * @des TODO
  */
 
-public class NewsUtils {
-    public static void getNewsData(final Context mcontext, final String Year_month) {
+public class getDataUtils {
+    public static synchronized void getSubcriptionFindData(final Context mcontext){
+        BmobQuery<SubscriptionFind> query_userSub = new BmobQuery<SubscriptionFind>();
+        query_userSub.findObjects(mcontext, new FindListener<SubscriptionFind>() {
+            @Override
+            public void onSuccess(List<SubscriptionFind> list) {
+                Log.i("20160604","request sub find success size is ::"+list.size());
+                EventBus.getDefault().postSticky(new RequestSubscriptionFind(list));
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
+    }
+
+    public static synchronized void getNewsData(final Context mcontext, final String Year_month) {
 
         //先从网络加载数据,
         if (NetWorkUtils.isOpenNetWork(mcontext)) {
@@ -58,7 +76,9 @@ public class NewsUtils {
             //        final String year =TimeUtils.getServerTime(mcontext,"yy");
             List<JYU_Important_News> list = cacheUtils.getJsonStr(Year_month);
             if (list != null) {
-                EventBus.getDefault().postSticky(list);
+                RequestNewsData data = new RequestNewsData(Year_month,list);
+                EventBus.getDefault().postSticky(data);
+//                EventBus.getDefault().postSticky(list);
                 cacheUtils = null;
                 list = null;
                 //        return;

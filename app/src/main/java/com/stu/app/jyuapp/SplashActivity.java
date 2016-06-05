@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.stu.app.jyuapp.Activity.SignInActivity;
 import com.stu.app.jyuapp.Domain.JyuUser;
-import com.stu.app.jyuapp.Utils.NewsUtils;
+import com.stu.app.jyuapp.Utils.getDataUtils;
 import com.stu.app.jyuapp.Utils.TimeUtils;
 import com.stu.app.jyuapp.Utils.constantsVAR;
 
@@ -46,29 +46,8 @@ public class SplashActivity extends AppCompatActivity {
         //        EventBus.getDefault().register(this);
         checkVersion();
         initData();
-        mHandler.sendEmptyMessageDelayed(constantsVAR.LoadMainActivity, 3000);
-        //        if (SpTools.getBoolean(this, constantsVAR.FirstTimeUse, true)) {
-        //            //进入轮播图+动画
-        //            startActivity.setOnClickListener(new View.OnClickListener() {
-        //                @Override
-        //                public void onClick(View v) {
-        //                    startActivity(new Intent(SplashActivity.this, SignInActivity.class));
-        //                    finish();
-        //                }
-        //            });
-        //        } else {
-        //            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        //            finish();
-        //        }
-        //        initEvent();
-
+        mHandler.sendEmptyMessageDelayed(constantsVAR.LoadMainActivity, 300);
     }
-
-    //
-    //    protected void onDestroy() {
-    //        super.onDestroy();
-    //        EventBus.getDefault().unregister(this);
-    //    }
 
     private Handler mHandler = new Handler() {
         @Override
@@ -130,7 +109,8 @@ public class SplashActivity extends AppCompatActivity {
         //下面两个步骤需要扔到线程里
         String year_month = TimeUtils.getServerTime(SplashActivity.this, "yy-MM");
         Log.i("20160601", "now time is ::" + year_month);
-        NewsUtils.getNewsData(SplashActivity.this, year_month);
+        getDataUtils.getNewsData(SplashActivity.this, year_month);
+        getDataUtils.getSubcriptionFindData(this);
 
     }
 

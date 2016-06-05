@@ -25,8 +25,9 @@ import com.nightonke.boommenu.Util;
 import com.stu.app.jyuapp.Adapter.HomeViewPagerAdapter;
 import com.stu.app.jyuapp.Adapter.MainPagerAdapter;
 import com.stu.app.jyuapp.Fragment.SchoolNewsFragment;
+import com.stu.app.jyuapp.Fragment.SubscriptionShowFragment;
 import com.stu.app.jyuapp.Fragment.myFragment;
-import com.stu.app.jyuapp.Fragment.testFragment;
+import com.stu.app.jyuapp.Fragment.subscriptionFindFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-//        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(R.layout.activity_home_ui_horizontal_ntb);
 
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 .shareStyle(0, 0, 0)
                 .init(boomMenuButton);
 
-            //进行页面跳转时，将activity进栈
+        //进行页面跳转时，将activity进栈
         boomMenuButton.setOnSubButtonClickListener(new BoomMenuButton.OnSubButtonClickListener() {
             @Override
             public void onClick(int buttonIndex) {
@@ -144,22 +145,22 @@ public class MainActivity extends AppCompatActivity {
     private void initUI() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
         List<View> mViewsSource = new ArrayList<>();
-        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
-        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
-        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
-        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
+        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
+        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
+        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
+        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
         //        mViewsSource.add( View.inflate(this,R.layout.activity_home_ui_horizontal_ntb,null));
 
         MainPagerAdapter adapter = new MainPagerAdapter(MainActivity.this, mViewsSource);
-        List<Fragment> list =new ArrayList<Fragment>();
-                list.add(new SchoolNewsFragment());
-        list.add(new testFragment());
-        list.add(new testFragment());
+        List<Fragment> list = new ArrayList<Fragment>();
+        list.add(new SchoolNewsFragment());
+        list.add(new SubscriptionShowFragment());
+        list.add(new subscriptionFindFragment());
         list.add(new myFragment());
-                HomeViewPagerAdapter homeViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager(),list);
-viewPager.setOffscreenPageLimit(3);
-//        viewPager.setAdapter(adapter);
-viewPager.setAdapter(homeViewPagerAdapter);
+        HomeViewPagerAdapter homeViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager(), list);
+        viewPager.setOffscreenPageLimit(3);
+        //        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(homeViewPagerAdapter);
         String[] colors = getResources().getStringArray(R.array.default_preview);
 
         NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.ntb_horizontal);

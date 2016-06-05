@@ -1,5 +1,8 @@
 package com.stu.app.jyuapp.Domain;
 
+import java.util.List;
+import java.util.Map;
+
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 
@@ -85,4 +88,23 @@ public class JyuUser extends BmobUser {
     private String College;
     private String class_;
     private BmobGeoPoint gpsAdd;
+
+    public List<Map<String, Boolean>> getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(List<Map<String, Boolean>> subscription) {
+        this.subscription = subscription;
+    }
+
+    /* public List<SubscriptionObj> getSubscription() {
+            return subscription;
+        }
+
+        public void setSubscription(List<SubscriptionObj> subscription) {
+            this.subscription = subscription;
+        }
+
+       private List<SubscriptionObj> subscription;*/
+    private List<Map<String,Boolean>> subscription;
 }
