@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
 
 /**
  * 底部使用导航栏,分3部分,直接爬综合要闻,校园公告,校园动态,如果设置了学院,再加个学院动态要闻
@@ -149,7 +151,7 @@ public class SchoolNewsFragment extends Fragment {
     }
 
     private int lastVisibleItem;
-
+    private  boolean lastState=false;
     private void initEvent() {
         srl_sch_news_app.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -187,6 +189,17 @@ public class SchoolNewsFragment extends Fragment {
                 int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
                 staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
                 lastVisibleItem = findMax(lastPositions);
+
+                    //1.往下滚，消失
+                    //2.往上滚，显示
+                    if ((dy>0)&&(!lastState)){
+                        lastState=true;
+                        EventBus.getDefault().post(BOOM_INVISIBLE);
+                    }else if ((dy<0)&&(lastState)){
+                        EventBus.getDefault().post(BOOM_VISIBLE);
+                        lastState=false;
+                    }
+
             }
         });
     }

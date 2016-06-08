@@ -1,7 +1,10 @@
 package com.stu.app.jyuapp;
 
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
 import com.gigamole.library.NavigationTabBar;
@@ -24,14 +28,21 @@ import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 import com.stu.app.jyuapp.Adapter.HomeViewPagerAdapter;
 import com.stu.app.jyuapp.Adapter.MainPagerAdapter;
+import com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.Fragment.SchoolNewsFragment;
 import com.stu.app.jyuapp.Fragment.SubscriptionShowFragment;
 import com.stu.app.jyuapp.Fragment.myFragment;
 import com.stu.app.jyuapp.Fragment.subscriptionFindFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         //        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(R.layout.activity_home_ui_horizontal_ntb);
@@ -80,6 +92,62 @@ public class MainActivity extends AppCompatActivity {
         Random random = new Random();
         int p = random.nextInt(Colors.length);
         return Color.parseColor(Colors[p]);
+    }
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    ValueAnimator vValue_visible = ValueAnimator.ofFloat(0.0f,0.2f,0.4f,0.6f,0.8f,1.0f);
+                    vValue_visible.setDuration(500);
+                    vValue_visible.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            Float scale = (Float) animation.getAnimatedValue();
+                            boomMenuButton.setScaleX(scale);
+                            boomMenuButton.setScaleY(scale);
+                        }
+                    });
+                    vValue_visible.setInterpolator(new LinearInterpolator());
+                    vValue_visible.start();
+                    break;
+                case 1:
+                    ValueAnimator vValue_invisible = ValueAnimator.ofFloat(1.0f,0.8f,0.6f,0.4f,0.2f,0.0f);
+                    vValue_invisible.setDuration(500);
+                    vValue_invisible.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            Float scale = (Float) animation.getAnimatedValue();
+                            boomMenuButton.setScaleX(scale);
+                            boomMenuButton.setScaleY(scale);
+                        }
+                    });
+                    vValue_invisible.setInterpolator(new LinearInterpolator());
+                    vValue_invisible.start();
+                    break;
+
+            }
+
+        }
+    };
+    private  RequestChangeBoomBtStatus.BoomMenuStatus mainlastStatus;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiverRequestChangeBoomBtStatus(RequestChangeBoomBtStatus.BoomMenuStatus boomMenuStatus) {
+        switch (boomMenuStatus){
+            case BOOM_VISIBLE:
+//                if (mainlastStatus!=BOOM_VISIBLE) {
+//                mainlastStatus = BOOM_VISIBLE;
+                    mHandler.sendEmptyMessageDelayed(0,0);
+//                }
+                break;
+            case BOOM_INVISIBLE:
+//                if (mainlastStatus!=BOOM_INVISIBLE){
+//                    mainlastStatus = BOOM_INVISIBLE;
+                    mHandler.sendEmptyMessageDelayed(1,0);
+//                }
+                break;
+        }
+//        mainlastStatus=boomMenuStatus;
     }
 
     @Override
@@ -161,6 +229,24 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(3);
         //        viewPager.setAdapter(adapter);
         viewPager.setAdapter(homeViewPagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                if (mainlastStatus ==BOOM_INVISIBLE) {
+                    EventBus.getDefault().post(BOOM_VISIBLE);
+//                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         String[] colors = getResources().getStringArray(R.array.default_preview);
 
         NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.ntb_horizontal);
@@ -202,15 +288,6 @@ public class MainActivity extends AppCompatActivity {
                         //                        .selectedIcon(getResources().getDrawable(R.drawable.ic_eighth))
                         .build()
         );
-        //        models.add(
-        //                new NavigationTabBar.Model.Builder(
-        //                        getResources().getDrawable(R.mipmap.ic_news),
-        //                        Color.parseColor(colors[4]))
-        //                        .title("44")
-        //                        .badgeTitle("44")
-        //                        //                        .selectedIcon(getResources().getDrawable(R.drawable.ic_eighth))
-        //                        .build()
-        //        );
         navigationTabBar.setModels(models);
         navigationTabBar.setViewPager(viewPager, 0);
     }

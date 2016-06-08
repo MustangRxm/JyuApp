@@ -32,6 +32,9 @@ import java.util.List;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.UpdateListener;
 
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -73,7 +76,7 @@ public class subscriptionFindFragment extends Fragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
+    private  boolean lastState=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,8 +96,27 @@ public class subscriptionFindFragment extends Fragment {
             rv_subscriptionfind = (RecyclerView) view.findViewById(R.id.rv_subscriptionfind);
             linearLayoutManager = new LinearLayoutManager(getContext());
             rv_subscriptionfind.setLayoutManager(linearLayoutManager);
+            rv_subscriptionfind.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    //1.往下滚，消失
+                    //2.往上滚，显示
+                    Log.i("20160608test", "on scrolled in dx" + dx + " dy::" + dy);
+                    if ((dy>0)&&(!lastState)){
+                        lastState=true;
+                        EventBus.getDefault().post(BOOM_INVISIBLE);
+                    }else if ((dy<0)&&(lastState)){
+                        EventBus.getDefault().post(BOOM_VISIBLE);
+                        lastState=false;
+                    }
 
-
+                }
+            });
             return view;
         }
     }

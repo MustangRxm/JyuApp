@@ -28,6 +28,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -82,9 +85,9 @@ public class SubscriptionShowFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case INIT_DATA:
-                    Log.i("20160608test","enter init data");
+                    Log.i("20160608test", "enter init data");
                     List<SubscriptionContent.Totalitem> list = (List<SubscriptionContent.Totalitem>) msg.obj;
-                    adapter = new subscriptionshow_RecyclerViewAdapter(getContext(),list,R.layout.fragment_subscription_show_item);
+                    adapter = new subscriptionshow_RecyclerViewAdapter(getContext(), list, R.layout.fragment_subscription_show_item);
                     rv_subscription_show.setAdapter(adapter);
                     break;
                 case UPDATE_DATA:
@@ -93,38 +96,66 @@ public class SubscriptionShowFragment extends Fragment {
 
         }
     };
-
+//    private static int lastState=0;
+private  boolean lastState=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+                             final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_subscription_show, container, false);
-//        boomMenuButton = (BoomMenuButton) container.findViewById(R.id.boom);
         rv_subscription_show = (RecyclerView) view.findViewById(R.id.rv_subscription_show);
-
         linearLayoutManager = new LinearLayoutManager(getContext());
         srl_subscription = (SwipeRefreshLayout) view.findViewById(R.id.srl_subscription);
+        srl_subscription.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srl_subscription.setRefreshing(false);
+            }
+
+        });
+        rv_subscription_show.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //1.往下滚，消失
+                //2.往上滚，显示
+                Log.i("20160608test", "on scrolled in dx" + dx + " dy::" + dy);
+                if ((dy>0)&&(!lastState)){
+                    lastState=true;
+                    EventBus.getDefault().post(BOOM_INVISIBLE);
+                }else if ((dy<0)&&(lastState)){
+                    EventBus.getDefault().post(BOOM_VISIBLE);
+                    lastState=false;
+                }
+
+            }
+        });
         rv_subscription_show.setLayoutManager(linearLayoutManager);
-        //        rv_subscription_show.setAdapter();
         return view;
     }
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-public void receivertest(RequestTest test){
-        Log.i("20160608test","enter bus:::"+test.getTeststr());
-        Gson gson = new Gson();
-        SubscriptionContent subscriptionContent =gson.fromJson(test.getTeststr(), SubscriptionContent.class);
-        Log.i("20160608test","pubdate::in bus"+subscriptionContent.getTotalitem().get(0).getPubDate());
 
-}
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void receivertest(RequestTest test) {
+        Log.i("20160608test", "enter bus:::" + test.getTeststr());
+        Gson gson = new Gson();
+        SubscriptionContent subscriptionContent = gson.fromJson(test.getTeststr(), SubscriptionContent.class);
+        Log.i("20160608test", "pubdate::in bus" + subscriptionContent.getTotalitem().get(0).getPubDate());
+
+    }
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubscriptionUrl(RequestSubscriptionContent content) {
-       String JsonStr = content.getSubscriptioncontent();
+        String JsonStr = content.getSubscriptioncontent();
         Gson gson = new Gson();
-        SubscriptionContent subscriptionContent =gson.fromJson(JsonStr, SubscriptionContent.class);
+        SubscriptionContent subscriptionContent = gson.fromJson(JsonStr, SubscriptionContent.class);
         List<SubscriptionContent.Totalitem> list = subscriptionContent.getTotalitem();
-        Log.i("20160608test","enter bus");
+        Log.i("20160608test", "enter bus");
         if (adapter == null) {
-            Log.i("20160608test","enter bus::null");
+            Log.i("20160608test", "enter bus::null");
             Message msg = mHandler.obtainMessage();
             msg.what = INIT_DATA;
             msg.obj = list;
