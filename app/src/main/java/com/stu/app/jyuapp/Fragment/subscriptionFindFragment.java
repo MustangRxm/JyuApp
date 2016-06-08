@@ -1,6 +1,7 @@
 package com.stu.app.jyuapp.Fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.stu.app.jyuapp.Activity.SignInActivity;
 import com.stu.app.jyuapp.Adapter.subscriptionfind_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Domain.JyuUser;
 import com.stu.app.jyuapp.Domain.SubscriptionFind;
@@ -75,13 +78,25 @@ public class subscriptionFindFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_subscription_find, container, false);
-        rv_subscriptionfind = (RecyclerView) view.findViewById(R.id.rv_subscriptionfind);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        rv_subscriptionfind.setLayoutManager(linearLayoutManager);
+        if (BmobUser.getCurrentUser(getContext(), JyuUser.class) == null) {
+            View SignInView = inflater.inflate(R.layout.fragment_please_signin, container, false);
+            Button bt_please_signin = (Button) SignInView.findViewById(R.id.bt_please_signin);
+            bt_please_signin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), SignInActivity.class));
+                }
+            });
+            return SignInView;
+        } else {
+            View view = inflater.inflate(R.layout.fragment_subscription_find, container, false);
+            rv_subscriptionfind = (RecyclerView) view.findViewById(R.id.rv_subscriptionfind);
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            rv_subscriptionfind.setLayoutManager(linearLayoutManager);
 
 
-        return view;
+            return view;
+        }
     }
 
 
@@ -90,13 +105,15 @@ public class subscriptionFindFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    if (adapter == null) {
-                        Log.i("20160604","adapter is empty");
-                        adapter = new subscriptionfind_RecyclerViewAdapter(getContext(), mSubscriptionFindList, R.layout.item_subscription_find);
-                        rv_subscriptionfind.setAdapter(adapter);
-                    }else {
-                        Log.i("20160604","adapter no empty");
-                        adapter.notifyDataSetChanged();
+                    if (rv_subscriptionfind != null) {
+                        if (adapter == null) {
+                            Log.i("20160604", "adapter is empty");
+                            adapter = new subscriptionfind_RecyclerViewAdapter(getContext(), mSubscriptionFindList, R.layout.fragment_subscription_find_item);
+                            rv_subscriptionfind.setAdapter(adapter);
+                        } else {
+                            Log.i("20160604", "adapter no empty");
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                     break;
                 case 1:
@@ -110,7 +127,7 @@ public class subscriptionFindFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubList(RequestSubscriptionFind requestSubscriptionFind) {
-       List<SubscriptionFind> list = requestSubscriptionFind.getSubscriptionFindList();
+        List<SubscriptionFind> list = requestSubscriptionFind.getSubscriptionFindList();
         Log.i("20160604", "receiver sub find success size is ::" + list.size());
         if (mSubscriptionFindList == null) {
             mSubscriptionFindList = list;
@@ -121,19 +138,20 @@ public class subscriptionFindFragment extends Fragment {
         }
 
     }
+
     @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
-    public void UpdateUserSub(UpdateUserSub updateUserSub){
-        JyuUser jyuUser =BmobUser.getCurrentUser(getContext(), JyuUser.class);
+    public void UpdateUserSub(UpdateUserSub updateUserSub) {
+        JyuUser jyuUser = BmobUser.getCurrentUser(getContext(), JyuUser.class);
         jyuUser.setSubscription(updateUserSub.getMapList());
         jyuUser.update(getContext(), new UpdateListener() {
             @Override
             public void onSuccess() {
-                Log.i("20160605","update sub date success");
+                Log.i("20160605", "update sub date success");
             }
 
             @Override
             public void onFailure(int i, String s) {
-                Log.i("20160605","update sub date fail::"+s);
+                Log.i("20160605", "update sub date fail::" + s);
             }
         });
     }

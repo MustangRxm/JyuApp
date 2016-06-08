@@ -72,9 +72,9 @@ public class SchoolNewsFragment extends Fragment {
                         sch_news_Rv_Adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(getContext(), News_Entity_Activity.class);
-                       EventBus.getDefault().postSticky(mList.get(position));
-                        startActivity(intent);
+                                Intent intent = new Intent(getContext(), News_Entity_Activity.class);
+                                EventBus.getDefault().postSticky(mList.get(position));
+                                startActivity(intent);
                             }
                         });
                         rv_sch_news_app.setAdapter(sch_news_Rv_Adapter);
@@ -97,33 +97,35 @@ public class SchoolNewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mcontext = getContext();
-        View view = inflater.inflate(R.layout.fragment_school_news, container, false);
-        bindView(view);
-        initData();
-        initView();
-        initEvent();
-        return view;
+            View view = inflater.inflate(R.layout.fragment_school_news, container, false);
+            bindView(view);
+            initData();
+            initView();
+            initEvent();
+            return view;
     }
-private synchronized void  TimeSub(String year_month){
-    String[] times = this.year_month.split("-");
-    int year = Integer.parseInt(times[0]);
-    int mon = Integer.parseInt(times[1]);
-    if (mon > 1) {
-        mon = mon - 1;
-    } else if (mon == 1) {
-        if (year == 0) {
-            year = 99;
-        } else {
-            year = year - 1;
+
+    private synchronized void TimeSub(String year_month) {
+        String[] times = this.year_month.split("-");
+        int year = Integer.parseInt(times[0]);
+        int mon = Integer.parseInt(times[1]);
+        if (mon > 1) {
+            mon = mon - 1;
+        } else if (mon == 1) {
+            if (year == 0) {
+                year = 99;
+            } else {
+                year = year - 1;
+            }
+            mon = 12;
         }
-        mon = 12;
+        if (mon < 10) {
+            this.year_month = year + "-0" + mon;
+        } else {
+            this.year_month = year + "-" + mon;
+        }
     }
-    if (mon < 10) {
-        this.year_month = year + "-0" + mon;
-    } else {
-        this.year_month = year + "-" + mon;
-    }
-}
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverNewsData(RequestNewsData data) {
         year_month = data.getYear_month();
@@ -162,11 +164,12 @@ private synchronized void  TimeSub(String year_month){
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == SCROLL_STATE_IDLE && lastVisibleItem + 1 == sch_news_Rv_Adapter.getItemCount()) {
                     //update mList
-                   srl_sch_news_app.setRefreshing(true);
+                    srl_sch_news_app.setRefreshing(true);
                     TimeSub(year_month);
                     EventBus.getDefault().post(new Date(year_month));
                 }
             }
+
             private int findMax(int[] lastPositions) {
                 int max = lastPositions[0];
                 for (int value : lastPositions) {
@@ -176,11 +179,12 @@ private synchronized void  TimeSub(String year_month){
                 }
                 return max;
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-//                                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                int []lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                //                                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
                 staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
                 lastVisibleItem = findMax(lastPositions);
             }

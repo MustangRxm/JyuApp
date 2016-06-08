@@ -1,7 +1,6 @@
 package com.stu.app.jyuapp.EventOBJ;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jack
@@ -10,17 +9,17 @@ import java.util.Map;
  */
 
 public class UpdateUserSub {
-    public UpdateUserSub(List<Map<String, Boolean>> mapList) {
+    public UpdateUserSub(List<String> mapList) {
         mMapList = mapList;
     }
 
-    public List<Map<String, Boolean>> getMapList() {
+    public List<String> getMapList() {
         return mMapList;
     }
 
-    public void setMapList(List<Map<String, Boolean>> mapList) {
+    public void setMapList(List<String> mapList) {
         mMapList = mapList;
     }
 
-    private List<Map<String,Boolean>> mMapList;
+    private List<String> mMapList;
 }

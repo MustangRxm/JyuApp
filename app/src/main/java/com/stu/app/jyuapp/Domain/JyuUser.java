@@ -1,7 +1,6 @@
 package com.stu.app.jyuapp.Domain;
 
 import java.util.List;
-import java.util.Map;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
@@ -89,14 +88,23 @@ public class JyuUser extends BmobUser {
     private String class_;
     private BmobGeoPoint gpsAdd;
 
-    public List<Map<String, Boolean>> getSubscription() {
+    public List<String> getSubscription() {
         return subscription;
     }
 
-    public void setSubscription(List<Map<String, Boolean>> subscription) {
+    public void setSubscription(List<String> subscription) {
         this.subscription = subscription;
     }
 
+    /*
+        public List<Map<String, Boolean>> getSubscription() {
+            return subscription;
+        }
+
+        public void setSubscription(List<Map<String, Boolean>> subscription) {
+            this.subscription = subscription;
+        }
+    */
     /* public List<SubscriptionObj> getSubscription() {
             return subscription;
         }
@@ -106,5 +114,6 @@ public class JyuUser extends BmobUser {
         }
 
        private List<SubscriptionObj> subscription;*/
-    private List<Map<String,Boolean>> subscription;
+//    private List<Map<String,Boolean>> subscription;
+    private List<String> subscription;
 }

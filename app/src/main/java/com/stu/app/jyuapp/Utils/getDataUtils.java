@@ -4,16 +4,25 @@ import android.content.Context;
 import android.util.Log;
 
 import com.stu.app.jyuapp.Domain.JYU_Important_News;
+import com.stu.app.jyuapp.Domain.JyuUser;
 import com.stu.app.jyuapp.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.EventOBJ.RequestNewsData;
+import com.stu.app.jyuapp.EventOBJ.RequestSubscriptionContent;
 import com.stu.app.jyuapp.EventOBJ.RequestSubscriptionFind;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.IOException;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * @author Jack
@@ -22,12 +31,81 @@ import cn.bmob.v3.listener.FindListener;
  */
 
 public class getDataUtils {
-    public static synchronized void getSubcriptionFindData(final Context mcontext){
+    /**
+     * @param1 url
+     * @param2 userID
+     **/
+
+    //     class RequestData extends AsyncTask<String,Float,String>{
+    //        @Override
+    //        protected String doInBackground(String... params) {
+    //            String url = params[0];
+    //            String userID= params[1];
+    //            OkHttpClient client = new OkHttpClient();
+    //            RequestBody requestbody = new FormBody
+    //                    .Builder()
+    //                    .add("userID",userID)
+    //                    .build();
+    //            Request request = new Request.Builder()
+    //                    .post(requestbody)
+    //                    .url(url).build();
+    //            final String[] result = new String[1];
+    //            client.newCall(request).enqueue(new Callback() {
+    //                @Override
+    //                public void onFailure(Call call, IOException e) {
+    //                    Log.i("20160608","error"+ e.toString());
+    //                }
+    //
+    //                @Override
+    //                public void onResponse(Call call, Response response) throws IOException {
+    //
+    //                    result[0] = response.body().string();
+    //                    Log.i("20160608", result[0]);
+    //                }
+    //            });
+    //            return result[0];
+    //        }
+    //    }
+    public static synchronized void getUserSubcriptionContent(Context mcontext) {
+        //        url = "http://45.78.4.50:8000/RssParse?userID=1e20c632c0"
+        String url = "http://45.78.4.50:8000/RssParse";
+        Log.i("20160608", url);
+        JyuUser user = BmobUser.getCurrentUser(mcontext, JyuUser.class);
+        if (user == null) {
+            //把精选的数据送过去
+        } else {
+            String userID = user.getObjectId();
+            Log.i("20160608", "url::" + url + "  id::" + userID);
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url + "?userID=" + userID)
+                    .build();
+            //                    EventBus.getDefault().postSticky(new RequestTest(JsonString));
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String JsonString = response.body().string();
+                    Log.i("20160608test", JsonString);
+//                    Gson gson = new Gson();
+//                    SubscriptionContent subscriptionContent = gson.fromJson(JsonString, SubscriptionContent.class);
+                    EventBus.getDefault().postSticky(new RequestSubscriptionContent(JsonString));
+                    Log.i("20160608test", "send to bus");
+                }
+            });
+        }
+    }
+
+    public static synchronized void getSubcriptionFindData(final Context mcontext) {
         BmobQuery<SubscriptionFind> query_userSub = new BmobQuery<SubscriptionFind>();
         query_userSub.findObjects(mcontext, new FindListener<SubscriptionFind>() {
             @Override
             public void onSuccess(List<SubscriptionFind> list) {
-                Log.i("20160604","request sub find success size is ::"+list.size());
+                Log.i("20160604", "request sub find success size is ::" + list.size());
                 EventBus.getDefault().postSticky(new RequestSubscriptionFind(list));
             }
 
@@ -50,13 +128,13 @@ public class getDataUtils {
             query_News.findObjects(mcontext, new FindListener<JYU_Important_News>() {
                 @Override
                 public void onSuccess(List<JYU_Important_News> mlist) {
-                    Log.i("20160601", "enter network loader mlist size::"+mlist.size());
+                    Log.i("20160601", "enter network loader mlist size::" + mlist.size());
                     CacheUtils cacheUtils = new CacheUtils(mcontext);
                     cacheUtils.saveJsonToCacheFile(mlist, Year_month);
-                    RequestNewsData data = new RequestNewsData(Year_month,mlist);
+                    RequestNewsData data = new RequestNewsData(Year_month, mlist);
 
                     EventBus.getDefault().postSticky(data);
-//                    EventBus.getDefault().postSticky(mlist);
+                    //                    EventBus.getDefault().postSticky(mlist);
                     cacheUtils = null;
                 }
 
@@ -76,9 +154,9 @@ public class getDataUtils {
             //        final String year =TimeUtils.getServerTime(mcontext,"yy");
             List<JYU_Important_News> list = cacheUtils.getJsonStr(Year_month);
             if (list != null) {
-                RequestNewsData data = new RequestNewsData(Year_month,list);
+                RequestNewsData data = new RequestNewsData(Year_month, list);
                 EventBus.getDefault().postSticky(data);
-//                EventBus.getDefault().postSticky(list);
+                //                EventBus.getDefault().postSticky(list);
                 cacheUtils = null;
                 list = null;
                 //        return;

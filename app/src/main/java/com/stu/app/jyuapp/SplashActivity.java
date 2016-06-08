@@ -111,6 +111,7 @@ public class SplashActivity extends AppCompatActivity {
         Log.i("20160601", "now time is ::" + year_month);
         getDataUtils.getNewsData(SplashActivity.this, year_month);
         getDataUtils.getSubcriptionFindData(this);
+        getDataUtils.getUserSubcriptionContent(this);
 
     }
 

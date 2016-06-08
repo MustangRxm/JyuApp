@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">JyuApp</string>
+    <string name="app_name">嘉应APP</string>
+    <string name="aname">嘉应大学</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello blank t</string>
 
 
     <string name="title_activity_news__entity_">News_Entity_FullscreenActivity</string>

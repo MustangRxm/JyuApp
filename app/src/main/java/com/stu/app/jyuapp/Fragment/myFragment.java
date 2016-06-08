@@ -34,6 +34,17 @@ public class myFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        if (BmobUser.getCurrentUser(getContext(), JyuUser.class) == null) {
+//            View SignInView = inflater.inflate(R.layout.fragment_please_signin,container,false);
+//            Button bt_please_signin = (Button)SignInView.findViewById(R.id.bt_please_signin);
+//            bt_please_signin.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    startActivity(new Intent(getContext(), SignInActivity.class));
+//                }
+//            });
+//            return SignInView;
+//        } else {
         View view =  inflater.inflate(R.layout.fragment_my, container, false);
         ImageView iv_user_info_headPortrait = (ImageView) view.findViewById(R.id.iv_user_info_headPortrait);
         TextView tv_user_info_nickName = (TextView) view.findViewById(R.id.tv_user_info_nickName);
@@ -44,10 +55,6 @@ public class myFragment extends Fragment {
         if (jyuUser==null){
             Glide.with(getContext()).load(R.mipmap.ic_launcher).into(iv_user_info_headPortrait);
             tv_user_info_nickName.setText("请登录");
-
-
-
-
         }else {
             Glide.with(getContext()).load(jyuUser.getUserImage()).into(iv_user_info_headPortrait);
             if (TextUtils.isEmpty(jyuUser.getUserNickname())){
@@ -67,6 +74,7 @@ public class myFragment extends Fragment {
             public void onClick(View v) {
                 if (jyuUser==null){
                     startActivity(new Intent(getContext(), SignInActivity.class));
+
                 }else {
                     //跳转到user info setting
                 }

@@ -5,7 +5,7 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_gravity="center"
 android:fitsSystemWindows="true"
-             tools:context="com.stu.app.jyu.view.Fragment.SchoolNews">
+             tools:context="com.stu.app.jyuapp.Fragment.SchoolNewsFragment">
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_sch_news_app"
