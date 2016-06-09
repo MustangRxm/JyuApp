@@ -1,7 +1,6 @@
 package com.stu.app.jyuapp.Activity;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.stu.app.jyuapp.Domain.JYU_Important_News;
 import com.stu.app.jyuapp.R;
 
@@ -98,8 +98,9 @@ public class News_Entity_Activity extends AppCompatActivity {
                                 Toast.makeText(News_Entity_Activity.this, "hehe", Toast.LENGTH_LONG).show();
                             }
                         });
+                        Glide.with(News_Entity_Activity.this).load(url).into(img);
                         News_img_content.addView(img);
-                        img.setImageURI(Uri.parse(url));
+//                        img.setImageURI(Uri.parse(url));
                     }
                     break;
 

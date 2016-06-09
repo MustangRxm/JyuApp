@@ -41,8 +41,37 @@ public class subscriptionshow_RecyclerViewAdapter extends BaseRecyclerViewAdapte
         holder.getView().setTag(position);
         Glide.with(mContext).load(item.getChannel_icon()).into(viewHolder.iv_subshow_item_channel_img);
         viewHolder.tv_subshow_item_channel_name.setText("选自 "+item.getChannel_title());
+
         viewHolder.tv_subshow_item_title.setText(item.getTitle());
-        viewHolder.tv_subshow_item_pubdate.setText(item.getTimeID()+"");
+        long publicDate = (long) item.getTimeID();//秒为单位
+        long currentTime =  System.currentTimeMillis();
+        long currentSecTime = currentTime/1000;
+        long DeltaTime = currentSecTime-publicDate;
+        int TextData =0;
+        if (DeltaTime<60){
+
+            //            TextData = (int) (DeltaTime/(60*60));
+            viewHolder.tv_subshow_item_pubdate.setText("刚刚");
+        }
+        else if (DeltaTime<(60*60)&&DeltaTime>(60)){
+            //大于1分钟
+            TextData = (int) (DeltaTime/(60));
+            viewHolder.tv_subshow_item_pubdate.setText(TextData+"分钟前");
+        }
+        else if (DeltaTime<(60*60*24)&&DeltaTime>(60*60)){
+            //大于1个小时
+            TextData = (int) (DeltaTime/(60*60));
+            viewHolder.tv_subshow_item_pubdate.setText(TextData+"小时前");
+        }
+        else if (DeltaTime<(365*24*60*60)&&DeltaTime>(60*60*24)){
+            //大于1天
+            TextData = (int) (DeltaTime/(60*60*24));
+            viewHolder.tv_subshow_item_pubdate.setText(TextData+"天前");
+        }        else if (DeltaTime>(365*60*60*24)){
+            //大于1天
+            TextData = (int) (DeltaTime/(60*60*24));
+            viewHolder.tv_subshow_item_pubdate.setText(TextData+"年前");
+        }
     }
 
 }

@@ -9,10 +9,8 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +45,9 @@ public class SchoolNewsFragment extends Fragment {
     private sch_news_App_RecyclerViewAdapter sch_news_Rv_Adapter;
     private List<JYU_Important_News> mList = new ArrayList<JYU_Important_News>();
     private Context mcontext;
-    private LinearLayoutManager linearLayoutManager;
-    private GridLayoutManager gridLayoutManager;
-    private StaggeredGridLayoutManager staggeredGridLayoutManager;
+    private LinearLayoutManager  linearLayoutManager;
+//    private GridLayoutManager gridLayoutManager;
+//    private StaggeredGridLayoutManager staggeredGridLayoutManager;
     private String year_month;
 
     @Override
@@ -188,9 +186,10 @@ public class SchoolNewsFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 //                                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
-                lastVisibleItem = findMax(lastPositions);
+//                int[] lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+//                staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);
+//                lastVisibleItem = findMax(lastPositions);
+                lastVisibleItem =linearLayoutManager.findLastVisibleItemPosition();
 
                     //1.往下滚，消失
                     //2.往上滚，显示
@@ -207,8 +206,11 @@ public class SchoolNewsFragment extends Fragment {
     }
 
     private void initView() {
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        rv_sch_news_app.setLayoutManager(staggeredGridLayoutManager);
+//        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        rv_sch_news_app.setLayoutManager(staggeredGridLayoutManager);
+
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rv_sch_news_app.setLayoutManager(linearLayoutManager);
     }
 
     private void initData() {

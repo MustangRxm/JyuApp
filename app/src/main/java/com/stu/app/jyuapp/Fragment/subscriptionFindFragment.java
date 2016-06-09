@@ -33,6 +33,7 @@ import java.util.List;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.UpdateListener;
 
+import static cn.bmob.v3.BmobUser.getCurrentUser;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
@@ -83,7 +84,8 @@ public class subscriptionFindFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (BmobUser.getCurrentUser(getContext(), JyuUser.class) == null) {
+        JyuUser user =BmobUser.getCurrentUser(getContext(), JyuUser.class);
+        if ( user== null) {
             View SignInView = inflater.inflate(R.layout.fragment_please_signin, container, false);
             Button bt_please_signin = (Button) SignInView.findViewById(R.id.bt_please_signin);
             bt_please_signin.setOnClickListener(new View.OnClickListener() {
@@ -130,9 +132,11 @@ public class subscriptionFindFragment extends Fragment {
                 case 0:
                     if (rv_subscriptionfind != null) {
                         if (adapter == null) {
+                            Log.i("20160604", "adapter is empty");
                             adapter = new subscriptionfind_RecyclerViewAdapter(getContext(), mSubscriptionFindList, R.layout.fragment_subscription_find_item);
                             rv_subscriptionfind.setAdapter(adapter);
                         } else {
+                            Log.i("20160604", "adapter no empty");
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -154,6 +158,7 @@ public class subscriptionFindFragment extends Fragment {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubList(RequestSubscriptionFind requestSubscriptionFind) {
         List<SubscriptionFind> list = requestSubscriptionFind.getSubscriptionFindList();
+        Log.i("20160604", "receiver sub find success size is ::" + list.size());
         if (mSubscriptionFindList == null) {
             mSubscriptionFindList = list;
             mHandler.sendEmptyMessage(0);
@@ -166,7 +171,7 @@ public class subscriptionFindFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
     public void UpdateUserSub(UpdateUserSub updateUserSub) {
-        JyuUser jyuUser = BmobUser.getCurrentUser(getContext(), JyuUser.class);
+        JyuUser jyuUser = getCurrentUser(getContext(), JyuUser.class);
         jyuUser.setSubscription(updateUserSub.getMapList());
         jyuUser.update(getContext(), new UpdateListener() {
             @Override

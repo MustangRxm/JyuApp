@@ -48,15 +48,17 @@ public class subscriptionfind_RecyclerViewAdapter extends BaseRecyclerViewAdapte
         holder.getView().setTag(position);
         Glide.with(mContext).load(item.getHead_portraitSrc()).into(viewHolder.iv_subfind_item_img);
         viewHolder.tv_subfind_item_name.setText(item.getSubName());
-         final String itemID = item.getObjectId();
-        JyuUser user = BmobUser.getCurrentUser(mContext, JyuUser.class);
-//         List<Map<String, Boolean>> sublist = user.getSubscription();
-        List<String> sublist = user.getSubscription();
-        if (sublist != null) {
-//            Map<String, Boolean> submap = sublist.get(0);
-            if (sublist.contains(itemID)) {
-                //选中就是已订阅，未选中是订阅，默认是未选中
-//                if (submap.get(itemID)) {
+        final String itemID = item.getObjectId();
+        BmobUser user_ = BmobUser.getCurrentUser(mContext, JyuUser.class);
+        //         List<Map<String, Boolean>> sublist = user.getSubscription();
+        if (user_!=null) {
+          JyuUser  user = (JyuUser) user_;
+            List<String> sublist = user.getSubscription();
+            if (sublist != null) {
+                //            Map<String, Boolean> submap = sublist.get(0);
+                if (sublist.contains(itemID)) {
+                    //选中就是已订阅，未选中是订阅，默认是未选中
+                    //                if (submap.get(itemID)) {
                     viewHolder.tb_subfind_item_sub.setChecked(true);
                     viewHolder.tb_subfind_item_sub.setBackground(mContext.getResources().getDrawable(R.drawable.bg_bt_raise));
                 } else {
@@ -65,41 +67,48 @@ public class subscriptionfind_RecyclerViewAdapter extends BaseRecyclerViewAdapte
 
                 }
             }//else 默认状态，即未选中
-//        }
-
+            //        }
+        }
         viewHolder.tb_subfind_item_sub.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                JyuUser user = BmobUser.getCurrentUser(mContext, JyuUser.class);
-//                 List<Map<String, Boolean>> sublist = user.getSubscription();
-                List<String> sublist = user.getSubscription();
-                if (sublist!=null){
+                BmobUser user_ = BmobUser.getCurrentUser(mContext, JyuUser.class);
+                if (user_ != null){
+                    JyuUser user = (JyuUser) user_;
+                    //                 List<Map<String, Boolean>> sublist = user.getSubscription();
+                    List<String> sublist = user.getSubscription();
+                if (sublist != null) {
 
-//                    Map<String, Boolean> map = sublist.get(0);
-                    if (isChecked){
-                        if (!sublist.contains(itemID)){
-                        sublist.add(itemID);}
-                    }else {
-                        if (sublist.contains(itemID)){
-                        sublist.remove(itemID);}
+                    //                    Map<String, Boolean> map = sublist.get(0);
+                    if (isChecked) {
+                        if (!sublist.contains(itemID)) {
+                            sublist.add(itemID);
+                        }
+                    } else {
+                        if (sublist.contains(itemID)) {
+                            sublist.remove(itemID);
+                        }
                     }
-//                    map.put(item.getObjectId(),isChecked);
-//                    sublist.set(0,map);
+                    //                    map.put(item.getObjectId(),isChecked);
+                    //                    sublist.set(0,map);
                     EventBus.getDefault().postSticky(new UpdateUserSub(sublist));
 
-                }else {
-//                    sublist = new ArrayList<Map<String, Boolean>>();
-//                    HashMap<String,Boolean> map = new HashMap<String, Boolean>();
-//                    map.put(item.getObjectId(),isChecked);
-//                    sublist.add(0,map);
+                } else {
+                    //                    sublist = new ArrayList<Map<String, Boolean>>();
+                    //                    HashMap<String,Boolean> map = new HashMap<String, Boolean>();
+                    //                    map.put(item.getObjectId(),isChecked);
+                    //                    sublist.add(0,map);
                     sublist = new ArrayList<String>();
                     sublist.add(itemID);
                     EventBus.getDefault().postSticky(new UpdateUserSub(sublist));
                 }
-                if (isChecked){
+                if (isChecked) {
                     buttonView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_bt_raise));
-                }else {buttonView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_bt_raise_color));}
+                } else {
+                    buttonView.setBackground(mContext.getResources().getDrawable(R.drawable.bg_bt_raise_color));
+                }
             }
+        }
         });
     }
 

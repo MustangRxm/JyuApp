@@ -16,9 +16,9 @@ import android.widget.RelativeLayout;
 
 import com.stu.app.jyuapp.Activity.SignInActivity;
 import com.stu.app.jyuapp.Domain.JyuUser;
-import com.stu.app.jyuapp.Utils.getDataUtils;
 import com.stu.app.jyuapp.Utils.TimeUtils;
 import com.stu.app.jyuapp.Utils.constantsVAR;
+import com.stu.app.jyuapp.Utils.getDataUtils;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case constantsVAR.LoadMainActivity:
-                  JyuUser jyuUser =  BmobUser.getCurrentUser(SplashActivity.this,JyuUser.class);
+                    JyuUser jyuUser = BmobUser.getCurrentUser(SplashActivity.this,JyuUser.class);
                     if (jyuUser!=null) {
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -81,31 +81,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initData() {
-//        PackageManager pm = getPackageManager();
-//        try {
-//            PackageInfo packageInfo = pm.getPackageInfo(getPackageName(), 0);
-//            versionCode = packageInfo.versionCode;
-//            versionName = packageInfo.versionName;
-//        } catch (Exception e) {
-//
-//        } finally {
-//
-//        }
-
-//        list = new ArrayList<>();
-//        ImageView imageView;
-//        view = new View(this);
-//        view.setBackgroundResource(R.mipmap.login_background);
-//        view.setAlpha(0.7f);
-//        list.add(view);
-//        view = new View(this);
-//        view.setBackgroundResource(R.mipmap.registered_background);
-//        view.setAlpha(0.7f);
-//        list.add(view);
-//        view = new View(this);
-//        view.setBackgroundResource(R.mipmap.forget_find_backgroud);
-//        view.setAlpha(0.7f);
-//        list.add(view);
         //下面两个步骤需要扔到线程里
         String year_month = TimeUtils.getServerTime(SplashActivity.this, "yy-MM");
         Log.i("20160601", "now time is ::" + year_month);

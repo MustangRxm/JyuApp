@@ -292,7 +292,16 @@ public class MainActivity extends AppCompatActivity {
         navigationTabBar.setModels(models);
         navigationTabBar.setViewPager(viewPager, 0);
     }
-
+private long exitTime=0;
+    @Override
+    public void onBackPressed() {
+        if ((System.currentTimeMillis()-exitTime)>1500){
+            Toast.makeText(getApplicationContext(),"再按一次退出程序",Toast.LENGTH_LONG).show();
+            exitTime=System.currentTimeMillis();
+        }else {
+            finish();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

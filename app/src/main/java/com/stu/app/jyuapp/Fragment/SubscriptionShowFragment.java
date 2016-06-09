@@ -1,6 +1,7 @@
 package com.stu.app.jyuapp.Fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,17 +10,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.nightonke.boommenu.BoomMenuButton;
+import com.stu.app.jyuapp.Activity.SubcriptionContent;
+import com.stu.app.jyuapp.Adapter.BaseRecyclerViewAdapter;
 import com.stu.app.jyuapp.Adapter.subscriptionshow_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Domain.SubscriptionContent;
 import com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.EventOBJ.RequestSubscriptionContent;
 import com.stu.app.jyuapp.R;
+import com.stu.app.jyuapp.Utils.getDataUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -79,17 +84,35 @@ public class SubscriptionShowFragment extends Fragment {
     public SubscriptionShowFragment() {
         // Required empty public constructor
     }
-
+    private List<SubscriptionContent.Totalitem> list_SubScriptionShowSource=null;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case INIT_DATA:
-                    List<SubscriptionContent.Totalitem> list = (List<SubscriptionContent.Totalitem>) msg.obj;
-                    adapter = new subscriptionshow_RecyclerViewAdapter(getContext(), list, R.layout.fragment_subscription_show_item);
+
+                    list_SubScriptionShowSource = (List<SubscriptionContent.Totalitem>) msg.obj;
+                    adapter = new subscriptionshow_RecyclerViewAdapter(getContext(), list_SubScriptionShowSource, R.layout.fragment_subscription_show_item);
                     rv_subscription_show.setAdapter(adapter);
+                    adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+//                            EventBus.getDefault().postSticky(new RequestUrl(list_SubScriptionShowSource.get(position).getRoot_link()));
+                            Intent intent = new Intent(getContext(), SubcriptionContent.class);
+                            list_SubScriptionShowSource.get(position).getRoot_link();
+
+                            intent.putExtra("url",list_SubScriptionShowSource.get(position).getRoot_link());
+                            startActivity(intent);
+                        }
+                    });
                     break;
                 case UPDATE_DATA:
+                    list_SubScriptionShowSource.removeAll(list_SubScriptionShowSource);
+                    list_SubScriptionShowSource.addAll((List<SubscriptionContent.Totalitem>) msg.obj);
+                    Log.i("20160609","update list source::list size::"+list_SubScriptionShowSource.size());
+                    Log.i("20160609","update list source::list item0::"+list_SubScriptionShowSource.get(0).getChannel_title());
+                    adapter.notifyDataSetChanged();
+                        srl_subscription.setRefreshing(false);
                     break;
             }
 
@@ -107,7 +130,8 @@ private  boolean lastState=false;
         srl_subscription.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                srl_subscription.setRefreshing(false);
+                getDataUtils.getUserSubcriptionContent(getContext());
+
             }
 
         });

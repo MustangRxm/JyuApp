@@ -1,6 +1,7 @@
 package com.stu.app.jyuapp.Utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.stu.app.jyuapp.Domain.JYU_Important_News;
 import com.stu.app.jyuapp.Domain.JyuUser;
@@ -35,40 +36,14 @@ public class getDataUtils {
      * @param2 userID
      **/
 
-    //     class RequestData extends AsyncTask<String,Float,String>{
-    //        @Override
-    //        protected String doInBackground(String... params) {
-    //            String url = params[0];
-    //            String userID= params[1];
-    //            OkHttpClient client = new OkHttpClient();
-    //            RequestBody requestbody = new FormBody
-    //                    .Builder()
-    //                    .add("userID",userID)
-    //                    .build();
-    //            Request request = new Request.Builder()
-    //                    .post(requestbody)
-    //                    .url(url).build();
-    //            final String[] result = new String[1];
-    //            client.newCall(request).enqueue(new Callback() {
-    //                @Override
-    //                public void onFailure(Call call, IOException e) {
-    //                    Log.i("20160608","error"+ e.toString());
-    //                }
-    //
-    //                @Override
-    //                public void onResponse(Call call, Response response) throws IOException {
-    //
-    //                    result[0] = response.body().string();
-    //                    Log.i("20160608", result[0]);
-    //                }
-    //            });
-    //            return result[0];
-    //        }
-    //    }
     public static synchronized void getUserSubcriptionContent(Context mcontext) {
-        //        url = "http://45.78.4.50:8000/RssParse?userID=1e20c632c0"
-//        String url = "http://45.78.4.50:8000/RssParse";
-        String url = "http://10.0.2.2:8000/RssParse";
+//                url = "http://45.78.4.50:8000/RssParse?userID=1e20c632c0"
+        String url = "http://45.78.4.50:8000/RssParse";
+//        String url = "http://10.0.2.2:8000/RssParse";
+        if (BmobUser.getCurrentUser(mcontext)==null){
+            Log.i("20160609","null user");
+            return;}else {
+          Log.i("20160609test",BmobUser.getCurrentUser(mcontext).getObjectId());
         JyuUser user = BmobUser.getCurrentUser(mcontext, JyuUser.class);
         if (user == null) {
             //把精选的数据送过去
@@ -78,7 +53,6 @@ public class getDataUtils {
             Request request = new Request.Builder()
                     .url(url + "?userID=" + userID)
                     .build();
-            //                    EventBus.getDefault().postSticky(new RequestTest(JsonString));
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -91,7 +65,7 @@ public class getDataUtils {
                     EventBus.getDefault().postSticky(new RequestSubscriptionContent(JsonString));
                 }
             });
-        }
+        }}
     }
 
     public static synchronized void getSubcriptionFindData(final Context mcontext) {

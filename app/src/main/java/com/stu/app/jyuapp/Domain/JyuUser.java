@@ -95,25 +95,5 @@ public class JyuUser extends BmobUser {
     public void setSubscription(List<String> subscription) {
         this.subscription = subscription;
     }
-
-    /*
-        public List<Map<String, Boolean>> getSubscription() {
-            return subscription;
-        }
-
-        public void setSubscription(List<Map<String, Boolean>> subscription) {
-            this.subscription = subscription;
-        }
-    */
-    /* public List<SubscriptionObj> getSubscription() {
-            return subscription;
-        }
-
-        public void setSubscription(List<SubscriptionObj> subscription) {
-            this.subscription = subscription;
-        }
-
-       private List<SubscriptionObj> subscription;*/
-//    private List<Map<String,Boolean>> subscription;
     private List<String> subscription;
 }
