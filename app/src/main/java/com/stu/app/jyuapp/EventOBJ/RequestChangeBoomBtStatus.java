@@ -8,6 +8,6 @@ package com.stu.app.jyuapp.EventOBJ;
 
 public class RequestChangeBoomBtStatus {
     public  enum BoomMenuStatus{
-        BOOM_INVISIBLE,BOOM_VISIBLE;
+        BOOM_INVISIBLE,BOOM_VISIBLE,BOOM_NOTIFY;
     }
 }

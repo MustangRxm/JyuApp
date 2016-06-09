@@ -2,7 +2,6 @@ package com.stu.app.jyuapp.Adapter;
 
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -71,7 +70,6 @@ public class subscriptionfind_RecyclerViewAdapter extends BaseRecyclerViewAdapte
         viewHolder.tb_subfind_item_sub.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.i("20160605", "id::" + buttonView.getId() + " is checked?? " + isChecked);
                 JyuUser user = BmobUser.getCurrentUser(mContext, JyuUser.class);
 //                 List<Map<String, Boolean>> sublist = user.getSubscription();
                 List<String> sublist = user.getSubscription();

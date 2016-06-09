@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import com.stu.app.jyuapp.Domain.JyuUser;
 import com.stu.app.jyuapp.MainActivity;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.Utils.KeyBoardUtils;
-import com.stu.app.jyuapp.Utils.constantsVAR;
 
 import cn.bmob.v3.BmobSMS;
 import cn.bmob.v3.exception.BmobException;
@@ -98,33 +96,25 @@ public class ForgetFindActivity extends AppCompatActivity {
                 String userPasswordAgain = et_login_forget_userPasswordAgain_textInputLayout.getEditText().getText().toString();
 
                 if (userPhoneNum.length() != 11) {
-                    Log.i(constantsVAR.TAG, "phone" + userPhoneNum.toString());
-                    Log.i(constantsVAR.TAG, "phonesize" + userPhoneNum.toString().length());
                     et_login_forget_userPhoneNum_textInputLayout.setError("请输入正确的手机号码");
                     SignUpFlag &= (~(0x01 << 0));
-                    Log.i(constantsVAR.TAG, "phonenum::flag::" + Integer.toHexString(SignUpFlag));
                 } else {
                     et_login_forget_userPhoneNum_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 0);
-                    Log.i(constantsVAR.TAG, "phonenum::flag::" + Integer.toHexString(SignUpFlag));
                 }
                 if (userPassword.length() < 6) {
                     SignUpFlag &= (~(0x01 << 1));
-                    Log.i(constantsVAR.TAG, "userPassword::flag::" + Integer.toHexString(SignUpFlag));
                     et_login_forget_userPassword_textInputLayout.setError("请输入大于6个字符长度的密码");
                 } else {
                     et_login_forget_userPassword_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 1);
-                    Log.i(constantsVAR.TAG, "userPassword::flag::" + Integer.toHexString(SignUpFlag));
                 }
                 if ((userPasswordAgain.length() < 6)||(userPasswordAgain!=userPassword)) {
                     SignUpFlag &= (~(0x01 << 2));
-                    Log.i(constantsVAR.TAG, "userPasswordag::flag::" + Integer.toHexString(SignUpFlag));
                     et_login_forget_userPasswordAgain_textInputLayout.setError("两次输入的密码不相同");
                 } else {
                     et_login_forget_userPasswordAgain_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 2);
-                    Log.i(constantsVAR.TAG, "userPasswordag::flag::" + Integer.toHexString(SignUpFlag));
                 }
 
                 if (SignUpFlag == 0x07) {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +16,6 @@ import com.stu.app.jyuapp.Domain.JyuUser;
 import com.stu.app.jyuapp.MainActivity;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.Utils.KeyBoardUtils;
-import com.stu.app.jyuapp.Utils.constantsVAR;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -117,54 +115,41 @@ public class SignUpActivity extends AppCompatActivity {
                 if (userPhoneNum.length() != 11) {
                     et_login_registered_userPhoneNum_textInputLayout.setError("请输入正确的手机号码");
                     SignUpFlag &= (~(0x01 << 0));
-                    Log.i(constantsVAR.TAG, "phonenum::flag::" + Integer.toHexString(SignUpFlag));
                 } else {
                     et_login_registered_userPhoneNum_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 0);
-                    Log.i(constantsVAR.TAG, "phonenum::flag::" + Integer.toHexString(SignUpFlag));
                 }
                 if (userPassword.length() < 6) {
                     SignUpFlag &= (~(0x01 << 1));
-                    Log.i(constantsVAR.TAG, "userPassword::flag::" + Integer.toHexString(SignUpFlag));
                     et_login_registered_userPassword_textInputLayout.setError("请输入大于6个字符长度的密码");
                 } else {
                     et_login_registered_userPassword_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 1);
-                    Log.i(constantsVAR.TAG, "userPassword::flag::" + Integer.toHexString(SignUpFlag));
                 }
                 if (!validateEmail(email)) {
                     et_login_registered_email_textInputLayout.setError("请输入正确的邮箱地址");
                     SignUpFlag &= (~(0x01 << 2));
-                    Log.i(constantsVAR.TAG, "email::flag::" + Integer.toHexString(SignUpFlag));
                 } else {
 
                     et_login_registered_email_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 2);
-                    Log.i(constantsVAR.TAG, "email::flag::" + Integer.toHexString(SignUpFlag));
 
                 }
                 if (msgNum.length()!=6) {
                     et_login_registered_msgNum_textInputLayout.setError("请输入正确的验证码");
                     SignUpFlag &= (~(0x01 << 3));
-                    Log.i(constantsVAR.TAG, "msg::flag::" + Integer.toHexString(SignUpFlag));
                 } else {
 
                     et_login_registered_msgNum_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 3);
-                    Log.i(constantsVAR.TAG, "msg::flag::" + Integer.toHexString(SignUpFlag));
 
                 }
                 if ((userPasswordAgain.length() < 6)||(!userPasswordAgain.equals(userPassword))) {
-                    Log.i("test_pwd","pwd1::"+userPassword);
-                    Log.i("test_pwd","pwd2::"+userPasswordAgain);
-                    Log.i("test_pwd","pwd3::"+userPasswordAgain.equals(userPassword));
                     SignUpFlag &= (~(0x01 << 4));
-                    Log.i(constantsVAR.TAG, "userPasswordag::flag::" + Integer.toHexString(SignUpFlag));
                     et_login_registered_userPasswordAgain_textInputLayout.setError("两次输入的密码不相同");
                 } else {
                     et_login_registered_userPasswordAgain_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 4);
-                    Log.i(constantsVAR.TAG, "userPasswordag::flag::" + Integer.toHexString(SignUpFlag));
                 }
 
 

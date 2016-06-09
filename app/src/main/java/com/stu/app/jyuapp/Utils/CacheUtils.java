@@ -1,7 +1,6 @@
 package com.stu.app.jyuapp.Utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -80,7 +79,6 @@ public class CacheUtils {
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
-                Log.i("entryviewholder",sb.toString());
                 list = gson.fromJson(sb.toString(),new TypeToken<List<JYU_Important_News>>(){}.getType());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

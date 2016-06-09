@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
 
 public class MainActivity extends AppCompatActivity {
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
                 break;
         }
-//        mainlastStatus=boomMenuStatus;
+        mainlastStatus=boomMenuStatus;
     }
 
     @Override
@@ -204,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(int buttonIndex) {
                 // 返回被点击的子按钮下标
                 Toast.makeText(MainActivity.this, "button index  " + buttonIndex, Toast.LENGTH_LONG).show();
-                Log.i("20160603", "button ::" + buttonIndex + "  is click");
             }
         });
 
@@ -237,9 +237,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-//                if (mainlastStatus ==BOOM_INVISIBLE) {
+                if (mainlastStatus ==BOOM_INVISIBLE) {
                     EventBus.getDefault().post(BOOM_VISIBLE);
-//                }
+                    EventBus.getDefault().post(BOOM_NOTIFY);
+                }
             }
 
             @Override

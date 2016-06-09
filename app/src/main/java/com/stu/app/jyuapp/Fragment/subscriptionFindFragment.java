@@ -19,6 +19,7 @@ import com.stu.app.jyuapp.Activity.SignInActivity;
 import com.stu.app.jyuapp.Adapter.subscriptionfind_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Domain.JyuUser;
 import com.stu.app.jyuapp.Domain.SubscriptionFind;
+import com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.EventOBJ.RequestSubscriptionFind;
 import com.stu.app.jyuapp.EventOBJ.UpdateUserSub;
 import com.stu.app.jyuapp.R;
@@ -33,6 +34,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.UpdateListener;
 
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
 
 /**
@@ -106,7 +108,6 @@ public class subscriptionFindFragment extends Fragment {
                     super.onScrolled(recyclerView, dx, dy);
                     //1.往下滚，消失
                     //2.往上滚，显示
-                    Log.i("20160608test", "on scrolled in dx" + dx + " dy::" + dy);
                     if ((dy>0)&&(!lastState)){
                         lastState=true;
                         EventBus.getDefault().post(BOOM_INVISIBLE);
@@ -129,11 +130,9 @@ public class subscriptionFindFragment extends Fragment {
                 case 0:
                     if (rv_subscriptionfind != null) {
                         if (adapter == null) {
-                            Log.i("20160604", "adapter is empty");
                             adapter = new subscriptionfind_RecyclerViewAdapter(getContext(), mSubscriptionFindList, R.layout.fragment_subscription_find_item);
                             rv_subscriptionfind.setAdapter(adapter);
                         } else {
-                            Log.i("20160604", "adapter no empty");
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -145,12 +144,16 @@ public class subscriptionFindFragment extends Fragment {
 
         }
     };
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiverBoomMenuNotify(RequestChangeBoomBtStatus.BoomMenuStatus boomMenuStatus){
+        if (boomMenuStatus== BOOM_NOTIFY){
+            lastState=false;
+        }
+    }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubList(RequestSubscriptionFind requestSubscriptionFind) {
         List<SubscriptionFind> list = requestSubscriptionFind.getSubscriptionFindList();
-        Log.i("20160604", "receiver sub find success size is ::" + list.size());
         if (mSubscriptionFindList == null) {
             mSubscriptionFindList = list;
             mHandler.sendEmptyMessage(0);

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import com.google.gson.Gson;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.stu.app.jyuapp.Adapter.subscriptionshow_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Domain.SubscriptionContent;
+import com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.EventOBJ.RequestSubscriptionContent;
-import com.stu.app.jyuapp.EventOBJ.RequestTest;
 import com.stu.app.jyuapp.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,6 +28,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
 
 /**
@@ -85,7 +85,6 @@ public class SubscriptionShowFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case INIT_DATA:
-                    Log.i("20160608test", "enter init data");
                     List<SubscriptionContent.Totalitem> list = (List<SubscriptionContent.Totalitem>) msg.obj;
                     adapter = new subscriptionshow_RecyclerViewAdapter(getContext(), list, R.layout.fragment_subscription_show_item);
                     rv_subscription_show.setAdapter(adapter);
@@ -123,7 +122,6 @@ private  boolean lastState=false;
                 super.onScrolled(recyclerView, dx, dy);
                 //1.往下滚，消失
                 //2.往上滚，显示
-                Log.i("20160608test", "on scrolled in dx" + dx + " dy::" + dy);
                 if ((dy>0)&&(!lastState)){
                     lastState=true;
                     EventBus.getDefault().post(BOOM_INVISIBLE);
@@ -137,14 +135,20 @@ private  boolean lastState=false;
         rv_subscription_show.setLayoutManager(linearLayoutManager);
         return view;
     }
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void receivertest(RequestTest test) {
-        Log.i("20160608test", "enter bus:::" + test.getTeststr());
-        Gson gson = new Gson();
-        SubscriptionContent subscriptionContent = gson.fromJson(test.getTeststr(), SubscriptionContent.class);
-        Log.i("20160608test", "pubdate::in bus" + subscriptionContent.getTotalitem().get(0).getPubDate());
-
+//
+//    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+//    public void receivertest(RequestTest test) {
+//        Log.i("20160608test", "enter bus:::" + test.getTeststr());
+//        Gson gson = new Gson();
+//        SubscriptionContent subscriptionContent = gson.fromJson(test.getTeststr(), SubscriptionContent.class);
+//        Log.i("20160608test", "pubdate::in bus" + subscriptionContent.getTotalitem().get(0).getPubDate());
+//
+//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiverBoomMenuNotify(RequestChangeBoomBtStatus.BoomMenuStatus boomMenuStatus){
+        if (boomMenuStatus== BOOM_NOTIFY){
+            lastState=false;
+        }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -153,9 +157,7 @@ private  boolean lastState=false;
         Gson gson = new Gson();
         SubscriptionContent subscriptionContent = gson.fromJson(JsonStr, SubscriptionContent.class);
         List<SubscriptionContent.Totalitem> list = subscriptionContent.getTotalitem();
-        Log.i("20160608test", "enter bus");
         if (adapter == null) {
-            Log.i("20160608test", "enter bus::null");
             Message msg = mHandler.obtainMessage();
             msg.what = INIT_DATA;
             msg.obj = list;

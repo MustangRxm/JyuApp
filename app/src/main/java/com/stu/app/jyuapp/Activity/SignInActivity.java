@@ -86,29 +86,22 @@ public class SignInActivity extends AppCompatActivity {
                 String userPhoneNum = usernumber_textInputLayout.getEditText().getText().toString();
                 String userPassword = userpwd_textInputLayout.getEditText().getText().toString();
                 if (userPhoneNum.length() != 11) {
-                    Log.i(constantsVAR.TAG, "phone" + userPhoneNum.toString());
-                    Log.i(constantsVAR.TAG, "phonesize" + userPhoneNum.toString().length());
                     usernumber_textInputLayout.setError("请输入正确的手机号码");
                     SignInFlag &= (~(0x01 << 0));
-                    Log.i(constantsVAR.TAG, "phonenum::flag::" + Integer.toHexString(SignInFlag));
                 } else {
                     usernumber_textInputLayout.setErrorEnabled(false);
                     SignInFlag |= (0x01 << 0);
-                    Log.i(constantsVAR.TAG, "phonenum::flag::" + Integer.toHexString(SignInFlag));
                 }
                 if (userPassword.length() < 6) {
                     SignInFlag &= (~(0x01 << 1));
-                    Log.i(constantsVAR.TAG, "userPassword::flag::" + Integer.toHexString(SignInFlag));
                     userpwd_textInputLayout.setError("请输入大于6个字符长度的密码");
                 } else {
                     userpwd_textInputLayout.setErrorEnabled(false);
                     SignInFlag |= (0x01 << 1);
-                    Log.i(constantsVAR.TAG, "userPassword::flag::" + Integer.toHexString(SignInFlag));
                 }
 
                 if (SignInFlag == 0x03) {
                     final JyuUser user = new JyuUser();
-                    //                            user.setEmail(email);
                     user.setUsername(userPhoneNum);
                     user.setPassword(userPassword);
                     user.setMobilePhoneNumber(userPhoneNum);

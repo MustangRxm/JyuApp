@@ -1,7 +1,6 @@
 package com.stu.app.jyuapp.Utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.stu.app.jyuapp.Domain.JYU_Important_News;
 import com.stu.app.jyuapp.Domain.JyuUser;
@@ -68,14 +67,13 @@ public class getDataUtils {
     //    }
     public static synchronized void getUserSubcriptionContent(Context mcontext) {
         //        url = "http://45.78.4.50:8000/RssParse?userID=1e20c632c0"
-        String url = "http://45.78.4.50:8000/RssParse";
-        Log.i("20160608", url);
+//        String url = "http://45.78.4.50:8000/RssParse";
+        String url = "http://10.0.2.2:8000/RssParse";
         JyuUser user = BmobUser.getCurrentUser(mcontext, JyuUser.class);
         if (user == null) {
             //把精选的数据送过去
         } else {
             String userID = user.getObjectId();
-            Log.i("20160608", "url::" + url + "  id::" + userID);
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(url + "?userID=" + userID)
@@ -90,11 +88,7 @@ public class getDataUtils {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String JsonString = response.body().string();
-                    Log.i("20160608test", JsonString);
-//                    Gson gson = new Gson();
-//                    SubscriptionContent subscriptionContent = gson.fromJson(JsonString, SubscriptionContent.class);
                     EventBus.getDefault().postSticky(new RequestSubscriptionContent(JsonString));
-                    Log.i("20160608test", "send to bus");
                 }
             });
         }
@@ -105,7 +99,6 @@ public class getDataUtils {
         query_userSub.findObjects(mcontext, new FindListener<SubscriptionFind>() {
             @Override
             public void onSuccess(List<SubscriptionFind> list) {
-                Log.i("20160604", "request sub find success size is ::" + list.size());
                 EventBus.getDefault().postSticky(new RequestSubscriptionFind(list));
             }
 
@@ -121,14 +114,12 @@ public class getDataUtils {
         //先从网络加载数据,
         if (NetWorkUtils.isOpenNetWork(mcontext)) {
 
-            Log.i("20160601", "enter network loader");
             BmobQuery<JYU_Important_News> query_News = new BmobQuery<JYU_Important_News>();
             query_News.addWhereContains("Date", Year_month + "-");
             query_News.order("-Date");//字符前面有个-,就是降序,否则默认字符就是升序
             query_News.findObjects(mcontext, new FindListener<JYU_Important_News>() {
                 @Override
                 public void onSuccess(List<JYU_Important_News> mlist) {
-                    Log.i("20160601", "enter network loader mlist size::" + mlist.size());
                     CacheUtils cacheUtils = new CacheUtils(mcontext);
                     cacheUtils.saveJsonToCacheFile(mlist, Year_month);
                     RequestNewsData data = new RequestNewsData(Year_month, mlist);
@@ -148,7 +139,6 @@ public class getDataUtils {
             });
 
         } else {
-            Log.i("20160601", "enter no internet loader");
             //如果没有，去硬盘
             CacheUtils cacheUtils = new CacheUtils(mcontext);
             //        final String year =TimeUtils.getServerTime(mcontext,"yy");

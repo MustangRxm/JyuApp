@@ -13,7 +13,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import com.stu.app.jyuapp.Adapter.BaseRecyclerViewAdapter;
 import com.stu.app.jyuapp.Adapter.sch_news_App_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Domain.JYU_Important_News;
 import com.stu.app.jyuapp.EventOBJ.Date;
+import com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.EventOBJ.RequestNewsData;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.Utils.getDataUtils;
@@ -36,6 +36,7 @@ import java.util.List;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
+import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
 
 /**
@@ -80,7 +81,6 @@ public class SchoolNewsFragment extends Fragment {
                             }
                         });
                         rv_sch_news_app.setAdapter(sch_news_Rv_Adapter);
-                        Log.i("test20160601", "mList size::" + mList.size());
                     } else {
                         sch_news_Rv_Adapter.notifyDataSetChanged();
                         srl_sch_news_app.setRefreshing(false);
@@ -132,11 +132,8 @@ public class SchoolNewsFragment extends Fragment {
     public void receiverNewsData(RequestNewsData data) {
         year_month = data.getYear_month();
         List nd = data.getList_sources();
-        Log.i("20160603", "new data ::now::" + year_month);
-        Log.i("20160603", "new data ::now list size::" + nd.size());
         if (nd.size() == 0) {
             TimeSub(year_month);
-            Log.i("20160603", "change the data :: " + year_month);
             EventBus.getDefault().post(new Date(year_month));
         } else {
             this.mList.addAll(nd);
@@ -149,7 +146,12 @@ public class SchoolNewsFragment extends Fragment {
         getDataUtils.getNewsData(getContext(), date.getTime());
 
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiverBoomMenuNotify(RequestChangeBoomBtStatus.BoomMenuStatus boomMenuStatus){
+        if (boomMenuStatus== BOOM_NOTIFY){
+            lastState=false;
+        }
+    }
     private int lastVisibleItem;
     private  boolean lastState=false;
     private void initEvent() {
