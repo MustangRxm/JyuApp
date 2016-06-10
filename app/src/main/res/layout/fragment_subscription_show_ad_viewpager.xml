@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_subscription_show_ad"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+    </android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="#44000000"
+        android:layout_alignBottom="@+id/vp_subscription_show_ad"
+        android:layout_height="30dp">
+
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/textView"/>
+
+        <me.relex.circleindicator.CircleIndicator
+            android:layout_weight="1"
+            android:id="@+id/ci_subscription_show_ad"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:ci_animator="@animator/indicator_animator"
+            app:ci_drawable="@drawable/black_radius"
+            />
+    </LinearLayout>
+</RelativeLayout>

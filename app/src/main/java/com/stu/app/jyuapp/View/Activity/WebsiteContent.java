@@ -22,6 +22,8 @@ public class WebsiteContent extends AppCompatActivity {
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
         Log.i("20160609", "receiver url ::::" + url);
+//       WebChromeClient chromeClient = new WebChromeClient();
+//        wv_website_content.setWebChromeClient();
         wv_website_content = (WebView) findViewById(R.id.wv_website_content);
         wv_website_content.setWebViewClient(new WebViewClient() {
             @Override

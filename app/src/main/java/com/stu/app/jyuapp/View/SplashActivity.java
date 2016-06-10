@@ -47,7 +47,7 @@ public class SplashActivity extends AppCompatActivity {
         //        EventBus.getDefault().register(this);
         checkVersion();
         initData();
-        mHandler.sendEmptyMessageDelayed(constantsVAR.LoadMainActivity, 300);
+        mHandler.sendEmptyMessageDelayed(constantsVAR.LoadMainActivity, 3000);
     }
 
     private Handler mHandler = new Handler() {
@@ -72,14 +72,14 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
-    private void initAnimation() {
-        aa = new AlphaAnimation(0.0f, 1.0f);
-        aa.setDuration(3000);
-        aa.setFillAfter(true);
-        rl_splash_activity.setAnimation(aa);
-        rl_splash_activity.startAnimation(aa);
-
-    }
+//    private void initAnimation() {
+//        aa = new AlphaAnimation(0.0f, 1.0f);
+//        aa.setDuration(3000);
+//        aa.setFillAfter(true);
+//        rl_splash_activity.setAnimation(aa);
+//        rl_splash_activity.startAnimation(aa);
+//
+//    }
 
     private void initData() {
         //下面两个步骤需要扔到线程里

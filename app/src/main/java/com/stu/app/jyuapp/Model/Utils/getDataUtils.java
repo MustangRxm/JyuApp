@@ -9,10 +9,12 @@ import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestNewsData;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionContent;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionFind;
+import com.stu.app.jyuapp.Model.EventOBJ.RequestVPdata;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -35,6 +37,13 @@ public class getDataUtils {
      * @param1 url
      * @param2 userID
      **/
+    public static synchronized void getsubshowVPdata(Context mcontext){
+        List<String> listsource = new ArrayList<>();
+        listsource.add("http://www.adaymag.com/wp-content/uploads/2014/08/adaymag-aday-2014-v3-1-regular.png");
+        listsource.add("http://7xrn7f.com1.z0.glb.clouddn.com/16-6-7/25192638.jpg");
+        listsource.add("http://ww4.sinaimg.cn/large/74311666jw1f4jpgux3cgj203k03kglj.jpg");
+        EventBus.getDefault().postSticky(new RequestVPdata(listsource));
+    }
 
     public static synchronized void getUserSubcriptionContent(Context mcontext) {
 //                url = "http://45.78.4.50:8000/RssParse?userID=1e20c632c0"

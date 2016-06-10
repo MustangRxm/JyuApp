@@ -137,16 +137,10 @@ public class MainActivity extends AppCompatActivity {
     public void receiverRequestChangeBoomBtStatus(RequestChangeBoomBtStatus.BoomMenuStatus boomMenuStatus) {
         switch (boomMenuStatus){
             case BOOM_VISIBLE:
-//                if (mainlastStatus!=BOOM_VISIBLE) {
-//                mainlastStatus = BOOM_VISIBLE;
                     mHandler.sendEmptyMessageDelayed(0,0);
-//                }
                 break;
             case BOOM_INVISIBLE:
-//                if (mainlastStatus!=BOOM_INVISIBLE){
-//                    mainlastStatus = BOOM_INVISIBLE;
                     mHandler.sendEmptyMessageDelayed(1,0);
-//                }
                 break;
         }
         mainlastStatus=boomMenuStatus;
