@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/registered_background"
     android:clipToPadding="true"
-    tools:context="com.stu.app.jyuapp.SplashActivity">
+    tools:context="com.stu.app.jyuapp.View.SplashActivity">
 
     <!--<android.support.v4.view.ViewPager-->
         <!--android:id="@+id/vp_splash"-->

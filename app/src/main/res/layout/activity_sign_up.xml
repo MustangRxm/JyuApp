@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@mipmap/registered_background"
-    tools:context="com.stu.app.jyuapp.Activity.SignUpActivity"
+    tools:context=".View.Activity.SignUpActivity"
     tools:layout_editor_absoluteX="0dp"
 
     tools:layout_editor_absoluteY="80dp">

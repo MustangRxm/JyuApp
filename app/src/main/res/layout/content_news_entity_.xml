@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.stu.app.jyuapp.Activity.News_Entity_Activity"
+    tools:context=".View.Activity.News_Entity_Activity"
 android:fitsSystemWindows="true"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"

@@ -10,7 +10,7 @@
     android:background="@mipmap/login_background"
     android:gravity="bottom"
     android:fitsSystemWindows="true"
-    tools:context="com.stu.app.jyuapp.Activity.SignInActivity">
+    tools:context=".View.Activity.SignInActivity">
     <Button
         android:alpha="0.8"
         android:layout_width="60dp"

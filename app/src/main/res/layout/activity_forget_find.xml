@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:background="@mipmap/forget_find_backgroud"
     android:layout_height="match_parent"
-    tools:context="com.stu.app.jyuapp.Activity.ForgetFindActivity">
+    tools:context=".View.Activity.ForgetFindActivity">
 <!--<include layout="@layout/activity_forgetpwd"-->
          <!--android:layout_width="match_parent"-->
          <!--android:layout_height="match_parent"-->

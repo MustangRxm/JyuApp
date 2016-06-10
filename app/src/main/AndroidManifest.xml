@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
-        android:name=".InitApplication"
+        android:name=".View.InitApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="嘉应大学"
@@ -35,7 +35,7 @@
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize"/>
         <activity
-            android:name=".SplashActivity"
+            android:name=".View.SplashActivity"
             android:icon="@drawable/jyu_icon"
             android:label="嘉应大学"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,28 +46,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.ForgetFindActivity"
+            android:name=".View.Activity.ForgetFindActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Activity.SignUpActivity"
+            android:name=".View.Activity.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Activity.SignInActivity"
+            android:name=".View.Activity.SignInActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".View.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Activity.News_Entity_Activity"
+            android:name=".View.Activity.News_Entity_Activity"
             android:label="@string/title_activity_news__entity_"
             android:theme="@style/Theme.AppCompat.Light">
         </activity>
-        <activity android:name=".Activity.SubcriptionContent"
+        <activity android:name=".View.Activity.WebsiteContent"
                   android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
