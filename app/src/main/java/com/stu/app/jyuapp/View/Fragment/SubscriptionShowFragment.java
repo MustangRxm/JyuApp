@@ -20,14 +20,14 @@ import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.cundong.recyclerview.RecyclerViewUtils;
 import com.google.gson.Gson;
 import com.nightonke.boommenu.BoomMenuButton;
-import com.stu.app.jyuapp.Model.Adapter.AdViewPagerAdapter;
-import com.stu.app.jyuapp.Model.Adapter.BaseRecyclerViewAdapter;
-import com.stu.app.jyuapp.Model.Adapter.subscriptionshow_RecyclerViewAdapter;
+import com.stu.app.jyuapp.Controler.Adapter.AdViewPagerAdapter;
+import com.stu.app.jyuapp.Controler.Adapter.BaseRecyclerViewAdapter;
+import com.stu.app.jyuapp.Controler.Adapter.subscriptionshow_RecyclerViewAdapter;
+import com.stu.app.jyuapp.Controler.Utils.getDataUtils;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionContent;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionContent;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestVPdata;
-import com.stu.app.jyuapp.Model.Utils.getDataUtils;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.View.Activity.WebsiteContent;
 

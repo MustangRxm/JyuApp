@@ -1,14 +1,14 @@
-package com.stu.app.jyuapp.Model.Adapter;
+package com.stu.app.jyuapp.Controler.Adapter;
 
 
 import android.content.Context;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.stu.app.jyuapp.Model.Domain.JYU_Important_News;
-import com.stu.app.jyuapp.R;
+import com.stu.app.jyuapp.Model.Domain.JyuNews;
 import com.stu.app.jyuapp.Model.ViewHolder.BaseViewHolder;
 import com.stu.app.jyuapp.Model.ViewHolder.sch_news_ViewHolder;
+import com.stu.app.jyuapp.R;
 
 import java.util.List;
 
@@ -18,10 +18,10 @@ import java.util.List;
  * @des TODO
  */
 public class sch_news_App_RecyclerViewAdapter extends BaseRecyclerViewAdapter {
-    List<JYU_Important_News> list_sourse;
+    List<JyuNews> list_sourse;
     private Context mContext;
 
-    public sch_news_App_RecyclerViewAdapter(Context context, List<JYU_Important_News> list, int resource) {
+    public sch_news_App_RecyclerViewAdapter(Context context, List<JyuNews> list, int resource) {
         super(context, list, resource);
         list_sourse = list;
         this.mContext = context;
@@ -34,19 +34,19 @@ public class sch_news_App_RecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
     @Override
     public void onBindViewHolder_(BaseViewHolder holder, int position) {
-        JYU_Important_News item = list_sourse.get(position);
+        JyuNews item = list_sourse.get(position);
         holder.getView().setTag(position);
-        List<String> list_img = item.getNews_Img();
+        List<String> list_img = item.getNewsImage();
+//        String list_img = item.getNewsImage();
+
         sch_news_ViewHolder mholder = (sch_news_ViewHolder) holder;
         mholder.setObj(item);
         if (list_img.size() == 0) {
             Glide.with(mContext).load(R.mipmap.jyu_icon).into(mholder.iv_sch_news_cardview_item);
-//            mholder.sv_sch_news_cardview_item.setImageURI(Uri.parse("res:///" + R.mipmap.ic_launcher));
         } else {
             Glide.with(mContext).load(list_img.get(0)).into(mholder.iv_sch_news_cardview_item);
-//            mholder.sv_sch_news_cardview_item.setImageURI(Uri.parse(list_img.get(0)));
         }
-        String[] Titles = item.getTitle().split(" ");
+        String[] Titles = item.getRootTitle().split(" ");
         mholder.tv_sch_news_title_cardview_item.setText(Titles[0]);
         mholder.tv_sch_news_date_cardview_item.setText(item.getDate());
     }

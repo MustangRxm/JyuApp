@@ -14,12 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stu.app.jyuapp.Controler.Utils.KeyBoardUtils;
+import com.stu.app.jyuapp.Controler.Utils.SpTools;
+import com.stu.app.jyuapp.Controler.Utils.constantsVAR;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
-import com.stu.app.jyuapp.View.MainActivity;
 import com.stu.app.jyuapp.R;
-import com.stu.app.jyuapp.Model.Utils.KeyBoardUtils;
-import com.stu.app.jyuapp.Model.Utils.SpTools;
-import com.stu.app.jyuapp.Model.Utils.constantsVAR;
+import com.stu.app.jyuapp.View.MainActivity;
 
 import cn.bmob.v3.listener.SaveListener;
 

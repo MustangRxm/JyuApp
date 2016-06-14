@@ -25,8 +25,8 @@ import com.nightonke.boommenu.Types.DimType;
 import com.nightonke.boommenu.Types.OrderType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
-import com.stu.app.jyuapp.Model.Adapter.HomeViewPagerAdapter;
-import com.stu.app.jyuapp.Model.Adapter.MainPagerAdapter;
+import com.stu.app.jyuapp.Controler.Adapter.HomeViewPagerAdapter;
+import com.stu.app.jyuapp.Controler.Adapter.MainPagerAdapter;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.View.Fragment.SchoolNewsFragment;
@@ -313,9 +313,9 @@ private long exitTime=0;
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

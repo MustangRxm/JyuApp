@@ -1,10 +1,10 @@
-package com.stu.app.jyuapp.Model.Utils;
+package com.stu.app.jyuapp.Controler.Utils;
 
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.stu.app.jyuapp.Model.Domain.JYU_Important_News;
+import com.stu.app.jyuapp.Model.Domain.JyuNews;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -38,7 +38,7 @@ public class CacheUtils {
 
     //    public void display()
     public void saveJsonToCacheFile(List list,String name) {
-        File file = new File(cacheFile, Md5Utils.md5(name));
+        File file = new File(cacheFile,Md5Utils.md5(name));
         Gson gson = new Gson();
         String jsonStr = gson.toJson(list);
 
@@ -65,10 +65,10 @@ public class CacheUtils {
         //        SpTools.putString(mContext,Md5Utils.md5(url),jsonstr);
     }
 
-    public List<JYU_Important_News> getJsonStr(String name) {
-        File file = new File(cacheFile, Md5Utils.md5(name));
+    public List<JyuNews> getJsonStr(String name) {
+        File file = new File(cacheFile,Md5Utils.md5(name));
         Gson gson = new Gson();
-        List<JYU_Important_News> list = null;
+        List<JyuNews> list = null;
         StringBuilder sb = null;
         BufferedReader br = null;
         if (file.exists() && file.isFile()) {
@@ -79,7 +79,7 @@ public class CacheUtils {
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
-                list = gson.fromJson(sb.toString(),new TypeToken<List<JYU_Important_News>>(){}.getType());
+                list = gson.fromJson(sb.toString(),new TypeToken<List<JyuNews>>(){}.getType());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

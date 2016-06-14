@@ -1,4 +1,4 @@
-package com.stu.app.jyuapp.Model.Utils;
+package com.stu.app.jyuapp.Controler.Utils;
 
 import android.app.Activity;
 import android.content.Context;

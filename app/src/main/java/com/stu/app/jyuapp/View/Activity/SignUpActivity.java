@@ -12,10 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.stu.app.jyuapp.Controler.Utils.KeyBoardUtils;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
-import com.stu.app.jyuapp.View.MainActivity;
 import com.stu.app.jyuapp.R;
-import com.stu.app.jyuapp.Model.Utils.KeyBoardUtils;
+import com.stu.app.jyuapp.View.MainActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

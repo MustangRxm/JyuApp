@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.stu.app.jyuapp.Model.Domain.JYU_Important_News;
+import com.stu.app.jyuapp.Model.Domain.JyuNews;
 import com.stu.app.jyuapp.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,7 +44,7 @@ public class News_Entity_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 //        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //        getSupportActionBar().setTitle("ddd");
+        //        getSupportActionBar().setRootTitle("ddd");
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_news_entity_);
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,8 +60,8 @@ public class News_Entity_Activity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    JYU_Important_News news = (JYU_Important_News) msg.obj;
-//                    toolbar.setTitle(news.getTitle());
+                    JyuNews news = (JyuNews) msg.obj;
+//                    toolbar.setRootTitle(news.getRootTitle());
 //                    setSupportActionBar(toolbar);
                     //setNavigationOnClickListener写在这里的原因是:这里的setSupportActionBar是二次覆盖
 //                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -70,8 +70,8 @@ public class News_Entity_Activity extends AppCompatActivity {
 //                            News_Entity_Activity.this.finish();
 //                        }
 //                    });
-//                    News_title.setText(news.getTitle());
-                    String[] News_main_content = news.getNews_Main_content().trim().split(" ");
+//                    News_title.setText(news.getRootTitle());
+                    String[] News_main_content = news.getNewsContent().trim().split(" ");
                     for (int i = 0; i < News_main_content.length; i++) {
                         if (!TextUtils.isEmpty(News_main_content[i].trim())) {
                             if (i == 0) {
@@ -83,14 +83,11 @@ public class News_Entity_Activity extends AppCompatActivity {
                             News_Main_content.append("\n");
                         }
                     }
-                    News_Author.setText(news.getNews_Author());
-                    List<String> img_list = news.getNews_Img();
+                    News_Author.setText(news.getAuthor());
+                    List<String> img_list = news.getNewsImage();
                     ImageView img;
                     for (String url : img_list) {
                         img = new ImageView(News_Entity_Activity.this);
-//                        img.setAspectRatio(1.33f);
-                        //                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(800, 600);
-                        //                    sv_img.setLayoutParams(params);
                         img.setClickable(true);
                         img.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -100,7 +97,6 @@ public class News_Entity_Activity extends AppCompatActivity {
                         });
                         Glide.with(News_Entity_Activity.this).load(url).into(img);
                         News_img_content.addView(img);
-//                        img.setImageURI(Uri.parse(url));
                     }
                     break;
 
@@ -110,7 +106,7 @@ public class News_Entity_Activity extends AppCompatActivity {
     };
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void getNews(JYU_Important_News news) {
+    public void getNews(JyuNews news) {
         Message msg = mHandler.obtainMessage();
         msg.obj = news;
         msg.what = 1;

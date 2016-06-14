@@ -1,6 +1,6 @@
 package com.stu.app.jyuapp.Model.EventOBJ;
 
-import com.stu.app.jyuapp.Model.Domain.JYU_Important_News;
+import com.stu.app.jyuapp.Model.Domain.JyuNews;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RequestNewsData {
     private String year_month;
-    private List<JYU_Important_News> list_sources;
+    private List<JyuNews> list_sources;
 
     public String getYear_month() {
         return year_month;
@@ -22,15 +22,15 @@ public class RequestNewsData {
         this.year_month = year_month;
     }
 
-    public List<JYU_Important_News> getList_sources() {
+    public List<JyuNews> getList_sources() {
         return list_sources;
     }
 
-    public void setList_sources(List<JYU_Important_News> list_sources) {
+    public void setList_sources(List<JyuNews> list_sources) {
         this.list_sources = list_sources;
     }
 
-    public RequestNewsData(String year_month, List<JYU_Important_News> list_sources) {
+    public RequestNewsData(String year_month, List<JyuNews> list_sources) {
         this.year_month = year_month;
         this.list_sources = list_sources;
     }

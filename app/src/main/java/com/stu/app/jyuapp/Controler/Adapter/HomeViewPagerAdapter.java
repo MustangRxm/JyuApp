@@ -1,4 +1,4 @@
-package com.stu.app.jyuapp.Model.Adapter;
+package com.stu.app.jyuapp.Controler.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

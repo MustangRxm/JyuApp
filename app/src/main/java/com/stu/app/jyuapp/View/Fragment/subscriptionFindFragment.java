@@ -15,14 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.stu.app.jyuapp.View.Activity.SignInActivity;
-import com.stu.app.jyuapp.Model.Adapter.subscriptionfind_RecyclerViewAdapter;
+import com.stu.app.jyuapp.Controler.Adapter.subscriptionfind_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.UpdateUserSub;
 import com.stu.app.jyuapp.R;
+import com.stu.app.jyuapp.View.Activity.SignInActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

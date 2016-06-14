@@ -15,15 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.stu.app.jyuapp.View.Activity.News_Entity_Activity;
-import com.stu.app.jyuapp.Model.Adapter.BaseRecyclerViewAdapter;
-import com.stu.app.jyuapp.Model.Adapter.sch_news_App_RecyclerViewAdapter;
-import com.stu.app.jyuapp.Model.Domain.JYU_Important_News;
+import com.stu.app.jyuapp.Controler.Adapter.BaseRecyclerViewAdapter;
+import com.stu.app.jyuapp.Controler.Adapter.sch_news_App_RecyclerViewAdapter;
+import com.stu.app.jyuapp.Controler.Utils.getDataUtils;
+import com.stu.app.jyuapp.Model.Domain.JyuNews;
 import com.stu.app.jyuapp.Model.EventOBJ.Date;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestNewsData;
 import com.stu.app.jyuapp.R;
-import com.stu.app.jyuapp.Model.Utils.getDataUtils;
+import com.stu.app.jyuapp.View.Activity.News_Entity_Activity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,7 +43,7 @@ import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMe
  */
 public class SchoolNewsFragment extends Fragment {
     private sch_news_App_RecyclerViewAdapter sch_news_Rv_Adapter;
-    private List<JYU_Important_News> mList = new ArrayList<JYU_Important_News>();
+    private List<JyuNews> mList = new ArrayList<JyuNews>();
     private Context mcontext;
     private LinearLayoutManager  linearLayoutManager;
 //    private GridLayoutManager gridLayoutManager;
@@ -91,7 +91,7 @@ public class SchoolNewsFragment extends Fragment {
     public SchoolNewsFragment() {
     }
 
-    List<JYU_Important_News> list_sources;
+    List<JyuNews> list_sources;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,11 +112,11 @@ public class SchoolNewsFragment extends Fragment {
         if (mon > 1) {
             mon = mon - 1;
         } else if (mon == 1) {
-            if (year == 0) {
-                year = 99;
-            } else {
+//            if (year == 0) {
+//                year = 99;
+//            } else {
                 year = year - 1;
-            }
+//            }
             mon = 12;
         }
         if (mon < 10) {

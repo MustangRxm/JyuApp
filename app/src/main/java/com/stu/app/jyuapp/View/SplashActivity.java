@@ -14,16 +14,16 @@ import android.view.animation.AlphaAnimation;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.View.Activity.SignInActivity;
-import com.stu.app.jyuapp.Model.Domain.JyuUser;
-import com.stu.app.jyuapp.Model.Utils.TimeUtils;
-import com.stu.app.jyuapp.Model.Utils.constantsVAR;
-import com.stu.app.jyuapp.Model.Utils.getDataUtils;
 
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+
+import static com.stu.app.jyuapp.Controler.Utils.TimeUtils.*;
+import static com.stu.app.jyuapp.Controler.Utils.getDataUtils.*;
 
 public class SplashActivity extends AppCompatActivity {
     private int versionCode;
@@ -47,14 +47,15 @@ public class SplashActivity extends AppCompatActivity {
         //        EventBus.getDefault().register(this);
         checkVersion();
         initData();
-        mHandler.sendEmptyMessageDelayed(constantsVAR.LoadMainActivity, 3000);
+
+        mHandler.sendEmptyMessageDelayed(com.stu.app.jyuapp.Controler.Utils.constantsVAR.LoadMainActivity, 3000);
     }
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case constantsVAR.LoadMainActivity:
+                case com.stu.app.jyuapp.Controler.Utils.constantsVAR.LoadMainActivity:
                     JyuUser jyuUser = BmobUser.getCurrentUser(SplashActivity.this,JyuUser.class);
                     if (jyuUser!=null) {
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -83,11 +84,11 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initData() {
         //下面两个步骤需要扔到线程里
-        String year_month = TimeUtils.getServerTime(SplashActivity.this, "yy-MM");
+        String year_month = getServerTime(SplashActivity.this, "yyyy-MM");
         Log.i("20160601", "now time is ::" + year_month);
-        getDataUtils.getNewsData(SplashActivity.this, year_month);
-        getDataUtils.getSubcriptionFindData(this);
-        getDataUtils.getUserSubcriptionContent(this);
+        getNewsData(SplashActivity.this, year_month);
+        getSubcriptionFindData(this);
+        getUserSubcriptionContent(this);
 
     }
 

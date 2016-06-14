@@ -1,9 +1,9 @@
-package com.stu.app.jyuapp.Model.Utils;
+package com.stu.app.jyuapp.Controler.Utils;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.stu.app.jyuapp.Model.Domain.JYU_Important_News;
+import com.stu.app.jyuapp.Model.Domain.JyuNews;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestNewsData;
@@ -97,12 +97,12 @@ public class getDataUtils {
         //先从网络加载数据,
         if (NetWorkUtils.isOpenNetWork(mcontext)) {
 
-            BmobQuery<JYU_Important_News> query_News = new BmobQuery<JYU_Important_News>();
+            BmobQuery<JyuNews> query_News = new BmobQuery<JyuNews>();
             query_News.addWhereContains("Date", Year_month + "-");
             query_News.order("-Date");//字符前面有个-,就是降序,否则默认字符就是升序
-            query_News.findObjects(mcontext, new FindListener<JYU_Important_News>() {
+            query_News.findObjects(mcontext, new FindListener<JyuNews>() {
                 @Override
-                public void onSuccess(List<JYU_Important_News> mlist) {
+                public void onSuccess(List<JyuNews> mlist) {
                     CacheUtils cacheUtils = new CacheUtils(mcontext);
                     cacheUtils.saveJsonToCacheFile(mlist, Year_month);
                     RequestNewsData data = new RequestNewsData(Year_month, mlist);
@@ -115,7 +115,7 @@ public class getDataUtils {
                 @Override
                 public void onError(int i, String s) {
                     //                CacheUtils cacheUtils = new CacheUtils(mcontext);
-                    //                List<JYU_Important_News> list  = cacheUtils.getJsonStr();
+                    //                List<JyuNews> list  = cacheUtils.getJsonStr();
                     //                EventBus.getDefault().postSticky(list);
                     //弹提示框，请检查网络
                 }
@@ -125,7 +125,7 @@ public class getDataUtils {
             //如果没有，去硬盘
             CacheUtils cacheUtils = new CacheUtils(mcontext);
             //        final String year =TimeUtils.getServerTime(mcontext,"yy");
-            List<JYU_Important_News> list = cacheUtils.getJsonStr(Year_month);
+            List<JyuNews> list = cacheUtils.getJsonStr(Year_month);
             if (list != null) {
                 RequestNewsData data = new RequestNewsData(Year_month, list);
                 EventBus.getDefault().postSticky(data);
