@@ -10,36 +10,4 @@
     android:background="@mipmap/registered_background"
     android:clipToPadding="true"
     tools:context="com.stu.app.jyuapp.View.SplashActivity">
-
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/vp_splash"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-    <!--</android.support.v4.view.ViewPager>-->
-    <!--需要注意这个自定义view的包名路径-->
-    <!--<com.stu.app.jyu.view.widget.CircleIndicator-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:id="@+id/indicator"-->
-        <!--CircleIndicator:ci_background="@android:color/white"-->
-        <!--CircleIndicator:ci_selected_background="0xffe6454a"-->
-        <!--CircleIndicator:ci_mode="outside"-->
-        <!--CircleIndicator:ci_gravity="center"-->
-        <!--CircleIndicator:ci_radius="10dp"-->
-        <!--CircleIndicator:ci_margin="5dp"-->
-        <!--/>-->
-    <!--<Button-->
-
-        <!--android:id="@+id/button"-->
-        <!--android:background="#db6968"-->
-        <!--android:alpha="0.7"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginBottom="36dp"-->
-        <!--android:shadowColor="@color/black_overlay"-->
-        <!--android:text="开启新生活"/>-->
-
 </RelativeLayout>

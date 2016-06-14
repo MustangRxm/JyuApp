@@ -1,5 +1,9 @@
 package com.stu.app.jyuapp.Model.EventOBJ;
 
+import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
+
+import java.util.List;
+
 /**
  * @author Jack
  * @time 2016/6/5 0005 15:24
@@ -9,14 +13,14 @@ package com.stu.app.jyuapp.Model.EventOBJ;
 public class RequestSubscriptionContent {
 
 
-    public RequestSubscriptionContent(String subscriptioncontent) {
+    public RequestSubscriptionContent(List<JyuSubscription> subscriptioncontent) {
         this.subscriptioncontent = subscriptioncontent;
     }
 
-    public String getSubscriptioncontent() {
+    public List<JyuSubscription> getSubscriptioncontent() {
         return subscriptioncontent;
     }
 
-    private String subscriptioncontent;
+    private List<JyuSubscription> subscriptioncontent;
 
 }

@@ -4,27 +4,24 @@ import android.content.Context;
 import android.util.Log;
 
 import com.stu.app.jyuapp.Model.Domain.JyuNews;
+import com.stu.app.jyuapp.Model.Domain.JyuSubChoice;
+import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestNewsData;
+import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionChoice;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionContent;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestVPdata;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @author Jack
@@ -37,7 +34,7 @@ public class getDataUtils {
      * @param1 url
      * @param2 userID
      **/
-    public static synchronized void getsubshowVPdata(Context mcontext){
+    public static synchronized void getsubshowVPdata(Context mcontext) {
         List<String> listsource = new ArrayList<>();
         listsource.add("http://www.adaymag.com/wp-content/uploads/2014/08/adaymag-aday-2014-v3-1-regular.png");
         listsource.add("http://7xrn7f.com1.z0.glb.clouddn.com/16-6-7/25192638.jpg");
@@ -46,35 +43,96 @@ public class getDataUtils {
     }
 
     public static synchronized void getUserSubcriptionContent(Context mcontext) {
-//                url = "http://45.78.4.50:8000/RssParse?userID=1e20c632c0"
+        //                url = "http://45.78.4.50:8000/RssParse?userID=1e20c632c0"
         String url = "http://45.78.4.50:8000/RssParse";
-//        String url = "http://10.0.2.2:8000/RssParse";
-        if (BmobUser.getCurrentUser(mcontext)==null){
-            Log.i("20160609","null user");
-            return;}else {
-          Log.i("20160609test",BmobUser.getCurrentUser(mcontext).getObjectId());
-        JyuUser user = BmobUser.getCurrentUser(mcontext, JyuUser.class);
-        if (user == null) {
-            //把精选的数据送过去
-        } else {
-            String userID = user.getObjectId();
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url + "?userID=" + userID)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
+        //        String url = "http://10.0.2.2:8000/RssParse";
+//        if (BmobUser.getCurrentUser(mcontext) == null) {
+//            Log.i("20160609", "null user");
+//            return;
+//        } else {
+            JyuUser user = BmobUser.getCurrentUser(mcontext, JyuUser.class);
+            if (user == null) {
+                Log.i("20160614","user is null");
+                //把精选的数据送过去
+                BmobQuery<JyuSubChoice> query = new BmobQuery<>();
+                query.order("-TimeID");
+                query.findObjects(mcontext, new FindListener<JyuSubChoice>() {
+                    @Override
+                    public void onSuccess(List<JyuSubChoice> list) {
+                        EventBus.getDefault().postSticky(new RequestSubscriptionChoice(list));
+                    }
 
-                }
+                    @Override
+                    public void onError(int i, String s) {
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String JsonString = response.body().string();
-                    EventBus.getDefault().postSticky(new RequestSubscriptionContent(JsonString));
+                    }
+                });
+            } else {
+                //user不等于null
+                List<BmobQuery<JyuSubscription>> queryList = new ArrayList<>();
+                BmobQuery<JyuSubscription> eq1;
+                List<String> sublist = user.getSubscription();
+                if (sublist.size() != 0) {
+                    for (String each : sublist) {
+                        eq1 = new BmobQuery<>();
+                        Log.i("20160614", each);
+                        eq1.addWhereEqualTo("subFindID", each);
+                        queryList.add(eq1);
+                        eq1 = null;
+                    }
+                    BmobQuery<JyuSubscription> mainQUery = new BmobQuery<>();
+                    mainQUery.or(queryList).order("-TimeID");
+                    mainQUery.findObjects(mcontext, new FindListener<JyuSubscription>() {
+                        @Override
+                        public void onSuccess(List<JyuSubscription> list) {
+                            Log.i("20160614", "list::::size ::" + list.size());
+//                            Log.i("20160614", "list content timeid::" + list.get(1).getTimeID());
+                            EventBus.getDefault().postSticky(new RequestSubscriptionContent(list));
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                        }
+                    });
+                } else {
+                    //把精选的数据送过去
+                    BmobQuery<JyuSubChoice> query = new BmobQuery<>();
+                    query.order("-TimeID");
+                    query.findObjects(mcontext, new FindListener<JyuSubChoice>() {
+                        @Override
+                        public void onSuccess(List<JyuSubChoice> list) {
+                            Log.i("20160614","request sub choice list size::"+list.size());
+                            EventBus.getDefault().postSticky(new RequestSubscriptionChoice(list));
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+
+                        }
+                    });
+                    //给他更新精选推送
+
+                    //            String userID = user.getObjectId();
+                    //            OkHttpClient client = new OkHttpClient();
+                    //            Request request = new Request.Builder()
+                    //                    .url(url + "?userID=" + userID)
+                    //                    .build();
+                    //            client.newCall(request).enqueue(new Callback() {
+                    //                @Override
+                    //                public void onFailure(Call call, IOException e) {
+                    //
+                    //                }
+                    //
+                    //                @Override
+                    //                public void onResponse(Call call, Response response) throws IOException {
+                    //                    String JsonString = response.body().string();
+                    //                    EventBus.getDefault().postSticky(new RequestSubscriptionContent(JsonString));
+                    //                }
+                    //            });
                 }
-            });
-        }}
+            }
+//        }
     }
 
     public static synchronized void getSubcriptionFindData(final Context mcontext) {

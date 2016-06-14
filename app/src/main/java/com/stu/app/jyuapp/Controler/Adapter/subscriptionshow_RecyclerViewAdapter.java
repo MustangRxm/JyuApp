@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.stu.app.jyuapp.Model.Domain.SubscriptionContent;
+import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
 import com.stu.app.jyuapp.Model.ViewHolder.BaseViewHolder;
 import com.stu.app.jyuapp.Model.ViewHolder.SubscriptionShow_ViewHolder;
 
@@ -18,10 +18,11 @@ import java.util.List;
  * @des TODO
  */
 public class subscriptionshow_RecyclerViewAdapter extends BaseRecyclerViewAdapter {
-    List<SubscriptionContent.Totalitem> list_sourse;
+//    List<SubscriptionContent.Totalitem> list_sourse;
+    List<JyuSubscription> list_sourse;
     private Context mContext;
 
-    public subscriptionshow_RecyclerViewAdapter(Context context, List<SubscriptionContent.Totalitem> list, int resource) {
+    public subscriptionshow_RecyclerViewAdapter(Context context, List<JyuSubscription> list, int resource) {
         super(context, list, resource);
         list_sourse = list;
         this.mContext = context;
@@ -36,7 +37,7 @@ public class subscriptionshow_RecyclerViewAdapter extends BaseRecyclerViewAdapte
     @Override
     public void onBindViewHolder_(BaseViewHolder holder, final int position) {
         SubscriptionShow_ViewHolder viewHolder = (SubscriptionShow_ViewHolder) holder;
-        final SubscriptionContent.Totalitem item = list_sourse.get(position);
+        final JyuSubscription item = list_sourse.get(position);
         viewHolder.setObj(item);
         holder.getView().setTag(position);
         Glide.with(mContext).load(item.getChannel_icon()).into(viewHolder.iv_subshow_item_channel_img);
