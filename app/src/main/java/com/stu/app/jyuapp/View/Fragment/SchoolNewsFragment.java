@@ -134,7 +134,8 @@ public class SchoolNewsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void RequestNewsAgain(Date date) {
-        getDataUtils.getNewsData(getContext(), date.getTime());
+//        getDataUtils gdu = new getDataUtils(getContext());
+        getDataUtils.getNewsData(getContext(),date.getTime());
 
     }
     @Subscribe(threadMode = ThreadMode.MAIN)

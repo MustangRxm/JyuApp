@@ -1,9 +1,8 @@
 package com.stu.app.jyuapp.Model.Domain;
 
-import java.util.List;
+import com.avos.avoscloud.AVUser;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobGeoPoint;
+import java.util.List;
 
 /**
  * @author Jack
@@ -11,89 +10,86 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
  * @des TODO
  */
 
-public class JyuUser extends BmobUser {
+public class JyuUser extends AVUser {
     public String getUserNickname() {
-        return UserNickname;
+        return this.getString("UserNickname");
     }
 
     public void setUserNickname(String userNickname) {
-        this.UserNickname = userNickname;
+        this.put("UserNickname",userNickname);
     }
 
-    private String UserNickname;
-
     public String getUserImage() {
-        return UserImage;
+
+        return this.getString("UserImage");
     }
 
     public void setUserImage(String userImage) {
-        UserImage = userImage;
+        this.put("UserImage",userImage);
     }
 
-    private String UserImage;
 
     public String getUserIntroduction() {
-        return UserIntroduction;
+
+        return this.getString("UserIntroduction");
     }
 
     public void setUserIntroduction(String userIntroduction) {
-        UserIntroduction = userIntroduction;
+        this.put("UserIntroduction",userIntroduction);
     }
 
-    private String UserIntroduction;
-
     public String getUserSex() {
-        return UserSex;
+
+        return this.getString("UserSex");
     }
 
     public void setUserSex(String userSex) {
-        UserSex = userSex;
+        this.put("UserSex",userSex);
     }
 
     public Integer getUserAge() {
-        return UserAge;
+
+        return this.getInt("UserAge");
     }
 
     public void setUserAge(Integer userAge) {
-        UserAge = userAge;
+        this.put("UserAge",userAge);
     }
 
     public String getCollege() {
-        return College;
+
+        return this.getString("College");
     }
 
     public void setCollege(String college) {
-        College = college;
+
+        this.put("College",college);
     }
 
     public String getClass_() {
-        return class_;
+        return this.getString("class_");
     }
 
     public void setClass_(String class_) {
-        this.class_ = class_;
+        this.put("class_",class_);
     }
 
-    public BmobGeoPoint getGpsAdd() {
-        return gpsAdd;
-    }
 
-    public void setGpsAdd(BmobGeoPoint gpsAdd) {
-        this.gpsAdd = gpsAdd;
-    }
-
-    private String UserSex;
-    private Integer UserAge;
-    private String College;
-    private String class_;
-    private BmobGeoPoint gpsAdd;
+//    private String UserNickname;
+//
+//    private String UserImage;
+//    private String UserSex;
+//    private String UserIntroduction;
+//    private Integer UserAge;
+//    private String College;
+//    private String class_;
 
     public List<String> getSubscription() {
-        return subscription;
+        return this.getList("subscription");
     }
 
     public void setSubscription(List<String> subscription) {
-        this.subscription = subscription;
+        this.put("subscription",subscription);
     }
-    private List<String> subscription;
+
 }

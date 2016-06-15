@@ -64,7 +64,7 @@ android:background="#ffffff"
     android:layout_weight="1.5"
     android:textOn="已订阅"
     android:textOff="订阅"
-
+android:background="@drawable/bt_selector01"
     android:textColor="#ffffff"
     android:textStyle="bold"
     />

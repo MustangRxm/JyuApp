@@ -1,49 +1,47 @@
 package com.stu.app.jyuapp.Model.Domain;
 
-import cn.bmob.v3.BmobObject;
+import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVObject;
 
 /**
  * @author Jack
  * @time 2016/6/4 0004 18:19
  * @des TODO
  */
-
-public class SubscriptionFind extends BmobObject {
-    private String subName;
+@AVClassName("SubscriptionFind")
+public class SubscriptionFind extends AVObject {
 
     public String getSubName() {
-        return subName;
+        return this.getString("subName");
     }
 
     public void setSubName(String subName) {
-        this.subName = subName;
+        this.put("subName",subName);
     }
 
     public String getSubRssSrc() {
-        return subRssSrc;
+        return this.getString("subRssSrc");
     }
 
     public void setSubRssSrc(String subRssSrc) {
-        this.subRssSrc = subRssSrc;
+        this.put("subRssSrc",subRssSrc);
+
     }
 
     public Integer getSubscrber() {
-        return subscrber;
+        return this.getInt("subscrber");
     }
 
     public void setSubscrber(Integer subscrber) {
-        this.subscrber = subscrber;
+        this.put("subscrber",subscrber);
     }
 
     public String getHead_portraitSrc() {
-        return Head_portraitSrc;
+        return this.getString("Head_portraitSrc");
     }
 
     public void setHead_portraitSrc(String head_portraitSrc) {
-        Head_portraitSrc = head_portraitSrc;
+        this.put("Head_portraitSrc",head_portraitSrc);
     }
 
-    private String subRssSrc;
-    private Integer subscrber;
-    private String Head_portraitSrc;
 }

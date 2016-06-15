@@ -39,16 +39,17 @@
         android:weightSum="1">
 
 
-        <ImageView
-            android:id="@+id/login_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <!--<ImageView-->
+            <!--android:id="@+id/login_img"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
 
-            android:layout_gravity="center"
-            android:paddingTop="5dp"
-            android:src="@mipmap/ic_launcher"/>
+            <!--android:layout_gravity="center"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:src="@mipmap/ic_launcher"/>-->
 
         <LinearLayout
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom"
@@ -58,7 +59,7 @@
                 android:id="@+id/et_login_registered_userPhoneNum_textInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
+                android:layout_marginRight="10dp"
                 android:layout_weight="5"
                 android:hint="请输入手机号">
 
@@ -67,7 +68,7 @@
                     android:id="@+id/et_login_registered_userPhoneNum"
                     android:layout_width="match_parent"
                     android:inputType="number"
-                    android:textColor="#ffffff"
+                    android:textColor="#22c3aa"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
@@ -87,6 +88,7 @@
                 android:textColor="#ffffff"
                 android:alpha="0.7"
                 android:textStyle="bold"
+                android:visibility="gone"
                 android:background="#22c3aa"
                 android:textSize="13sp"/>
         </LinearLayout>
@@ -104,7 +106,7 @@
                 android:id="@+id/et_login_registered_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="#ffffff"
+                android:textColor="#22c3aa"
                 android:inputType="text"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -114,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:visibility="gone"
             android:hint="请输入验证码"
             >
 
@@ -122,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:inputType="text"
-                android:textColor="#ffffff"
+                android:textColor="#22c3aa"
                 />
         </android.support.design.widget.TextInputLayout>
 
@@ -140,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:inputType="textPassword"
-                android:textColor="#ffffff"
+                android:textColor="#22c3aa"
                 />
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
@@ -157,7 +160,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:inputType="textPassword"
-                android:textColor="#ffffff"
+                android:textColor="#22c3aa"
                 />
         </android.support.design.widget.TextInputLayout>
         <Button

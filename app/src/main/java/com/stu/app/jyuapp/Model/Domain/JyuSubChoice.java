@@ -4,7 +4,7 @@ package com.stu.app.jyuapp.Model.Domain;
  * Created by m1 on 16-6-14.
  */
 
-public class JyuSubChoice extends JyuSubscription {
+//public class JyuSubChoice extends JyuSubscription {
 //    private String Link;
 //
 //    public long getTimeID() {
@@ -93,4 +93,4 @@ public class JyuSubChoice extends JyuSubscription {
 //    private String channel_title;
 //    private String channel_icon;
 
-}
+//}

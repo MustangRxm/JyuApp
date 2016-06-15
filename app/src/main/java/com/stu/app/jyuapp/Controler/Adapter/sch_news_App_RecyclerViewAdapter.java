@@ -49,6 +49,7 @@ public class sch_news_App_RecyclerViewAdapter extends BaseRecyclerViewAdapter {
         String[] Titles = item.getRootTitle().split(" ");
         mholder.tv_sch_news_title_cardview_item.setText(Titles[0]);
         mholder.tv_sch_news_date_cardview_item.setText(item.getDate());
+        mholder.tv_sch_news_from.setText(item.getFrom());
     }
 
 }

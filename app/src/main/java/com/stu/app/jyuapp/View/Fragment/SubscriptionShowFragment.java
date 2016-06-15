@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.avos.avoscloud.AVUser;
 import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.cundong.recyclerview.RecyclerViewUtils;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -23,6 +24,7 @@ import com.stu.app.jyuapp.Controler.Adapter.BaseRecyclerViewAdapter;
 import com.stu.app.jyuapp.Controler.Adapter.subscriptionshow_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Controler.Utils.getDataUtils;
 import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
+import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionChoice;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionContent;
@@ -37,12 +39,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobUser;
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
+
+//import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionChoice;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,10 +118,11 @@ public class SubscriptionShowFragment extends Fragment {
                         public void onItemClick(View view, int position) {
                             Intent intent = new Intent(getContext(), WebsiteContent.class);
                             list_SubScriptionShowSource.get(position).getRoot_link();
-                            intent.putExtra("url", list_SubScriptionShowSource.get(position).getRoot_link());
+                            intent.putExtra("url", list_SubScriptionShowSource.get(position).getLink());
                             startActivity(intent);
                         }
                     });
+                    srl_subscription.setRefreshing(false);
                     break;
                 case UPDATE_RV_DATA:
                     list_SubScriptionShowSource.removeAll(list_SubScriptionShowSource);
@@ -132,12 +136,14 @@ public class SubscriptionShowFragment extends Fragment {
                         ADlistSource.addAll((List<String>) msg.obj);
                     }
                     ADadapter.notifyDataSetChanged();
+                    srl_subscription.setRefreshing(false);
                     break;
             }
 
         }
     };
     private boolean lastState = false;
+    private int PageNum = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,9 +163,11 @@ public class SubscriptionShowFragment extends Fragment {
         srl_subscription.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (BmobUser.getCurrentUser(getContext())!=null){
-                getDataUtils.getUserSubcriptionContent(getContext());
-                getDataUtils.getsubshowVPdata(getContext());}else {
+                if (AVUser.getCurrentUser(JyuUser.class) != null) {
+                    getDataUtils.getUserSubcriptionContent(getContext(),0);
+                    PageNum=0;
+                    getDataUtils.getsubshowVPdata();
+                } else {
                     srl_subscription.setRefreshing(false);
                 }
             }
@@ -170,6 +178,7 @@ public class SubscriptionShowFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -198,7 +207,7 @@ public class SubscriptionShowFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubscriptionUrl(RequestSubscriptionContent content) {
-        List<JyuSubscription> list =  content.getSubscriptioncontent();
+        List<JyuSubscription> list = content.getSubscriptioncontent();
         if (adapter == null) {
             Message msg = mHandler.obtainMessage();
             msg.what = INIT_RV_DATA;
@@ -212,8 +221,9 @@ public class SubscriptionShowFragment extends Fragment {
 
         }
     }
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void receiverSubChoice(RequestSubscriptionChoice choice){
+    public void receiverSubChoice(RequestSubscriptionChoice choice) {
         List<JyuSubscription> list = choice.getSubscriptionchoice();
         Message msg = mHandler.obtainMessage();
         msg.what = INIT_RV_DATA;

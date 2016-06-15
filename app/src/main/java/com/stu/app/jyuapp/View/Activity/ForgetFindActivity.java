@@ -1,7 +1,6 @@
 package com.stu.app.jyuapp.View.Activity;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,17 +9,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.stu.app.jyuapp.Controler.Utils.KeyBoardUtils;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.R;
-import com.stu.app.jyuapp.View.MainActivity;
-
-import cn.bmob.v3.BmobSMS;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.RequestSMSCodeListener;
-import cn.bmob.v3.listener.SaveListener;
 
 public class ForgetFindActivity extends AppCompatActivity {
     private RelativeLayout activity_forget_find;
@@ -37,7 +29,7 @@ public class ForgetFindActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_forget_find);
         pb_forget_find_wait = (ProgressBar) findViewById(R.id.pb_forget_find_wait);
         bt_forget_find_msg = (Button) findViewById(R.id.bt_getmsg);
@@ -72,14 +64,14 @@ public class ForgetFindActivity extends AppCompatActivity {
                     et_login_forget_userPhoneNum_textInputLayout.setErrorEnabled(false);
                     //                    SignUpFlag |= (0x01 << 0);
                     //                    Log.i(constantsVAR.TAG, "phonenum::flag::" + Integer.toHexString(SignUpFlag));
-                    BmobSMS.requestSMSCode(ForgetFindActivity.this, userPhoneNum, "smsCode01", new RequestSMSCodeListener() {
-                        @Override
-                        public void done(Integer integer, BmobException e) {
-                            if (e==null){
-                                Toast.makeText(ForgetFindActivity.this,"send sms success smsid="+integer,Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                    //                    BmobSMS.requestSMSCode(ForgetFindActivity.this, userPhoneNum, "smsCode01", new RequestSMSCodeListener() {
+                    //                        @Override
+                    //                        public void done(Integer integer, BmobException e) {
+                    //                            if (e==null){
+                    //                                Toast.makeText(ForgetFindActivity.this,"send sms success smsid="+integer,Toast.LENGTH_LONG).show();
+                    //                            }
+                    //                        }
+                    //                    });
                 }
             }
         });
@@ -109,7 +101,7 @@ public class ForgetFindActivity extends AppCompatActivity {
                     et_login_forget_userPassword_textInputLayout.setErrorEnabled(false);
                     SignUpFlag |= (0x01 << 1);
                 }
-                if ((userPasswordAgain.length() < 6)||(userPasswordAgain!=userPassword)) {
+                if ((userPasswordAgain.length() < 6) || (userPasswordAgain != userPassword)) {
                     SignUpFlag &= (~(0x01 << 2));
                     et_login_forget_userPasswordAgain_textInputLayout.setError("两次输入的密码不相同");
                 } else {
@@ -124,40 +116,22 @@ public class ForgetFindActivity extends AppCompatActivity {
                     user.setPassword(userPassword);
                     user.setMobilePhoneNumber(userPhoneNum);
                     pb_forget_find_wait.setVisibility(View.VISIBLE);
-                    user.signOrLogin(ForgetFindActivity.this, msg, new SaveListener() {
-                        @Override
-                        public void onSuccess() {
-                            pb_forget_find_wait.setVisibility(View.GONE);
-                            Toast.makeText(ForgetFindActivity.this, "find success", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(ForgetFindActivity.this, MainActivity.class));
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-
-                        }
-                    });
-                    //这里是更新用户资料
-                    //                    user.login(getApplicationContext(), new SaveListener() {
+                    //                    user.signOrLogin(ForgetFindActivity.this, msg, new SaveListener() {
                     //                        @Override
                     //                        public void onSuccess() {
                     //                            pb_forget_find_wait.setVisibility(View.GONE);
-                    //                            Toast.makeText(getApplicationContext(), "signin success", Toast.LENGTH_LONG).show();
-                    //                            //                                    et_login_userName.setText(user.getUsername());
-                    //                            //需要设置动画效果
-                    //                            JyuUser user_obtain = BmobUser.getCurrentUser(getApplicationContext(), JyuUser.class);
-                    //                            Intent loadMainActivity = new Intent(ForgetFindActivity.this, MainActivity.class);
-                    //                            startActivity(loadMainActivity);
+                    //                            Toast.makeText(ForgetFindActivity.this, "find success", Toast.LENGTH_LONG).show();
+                    //                            startActivity(new Intent(ForgetFindActivity.this, MainActivity.class));
                     //                            finish();
                     //                        }
                     //
                     //                        @Override
                     //                        public void onFailure(int i, String s) {
-                    //                            Toast.makeText(getApplicationContext(), "signup fail::" + s, Toast.LENGTH_LONG).show();
-                    //                            pb_forget_find_wait.setVisibility(View.GONE);
+                    //
                     //                        }
                     //                    });
+                    //这里是更新用户资料
+
                 }
             }
         });

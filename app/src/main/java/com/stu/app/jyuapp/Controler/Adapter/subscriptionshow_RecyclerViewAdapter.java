@@ -66,8 +66,8 @@ public class subscriptionshow_RecyclerViewAdapter extends BaseRecyclerViewAdapte
             TextData = (int) (DeltaTime / (60 * 60 * 24));
             viewHolder.tv_subshow_item_pubdate.setText(TextData + "天前");
         } else if (DeltaTime > (365 * 60 * 60 * 24)) {
-            //大于1天
-            TextData = (int) (DeltaTime / (60 * 60 * 24));
+            //大于1年
+            TextData = (int) (DeltaTime / (365*60 * 60 * 24));
             viewHolder.tv_subshow_item_pubdate.setText(TextData + "年前");
         }
 

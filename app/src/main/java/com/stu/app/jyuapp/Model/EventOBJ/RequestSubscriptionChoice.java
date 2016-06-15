@@ -1,9 +1,7 @@
 package com.stu.app.jyuapp.Model.EventOBJ;
 
-import com.stu.app.jyuapp.Model.Domain.JyuSubChoice;
 import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,19 +13,14 @@ import java.util.List;
 public class RequestSubscriptionChoice {
 
 
-    public RequestSubscriptionChoice(List<JyuSubChoice> subscriptionchoice) {
+    public RequestSubscriptionChoice(List<JyuSubscription> subscriptionchoice) {
         this.subscriptionchoice = subscriptionchoice;
     }
 
     public List<JyuSubscription> getSubscriptionchoice() {
-        List<JyuSubscription> list = new ArrayList<>();
-        for (JyuSubChoice each : subscriptionchoice){
-            list.add(each);
-
-        }
-        return list;
+        return subscriptionchoice;
     }
 
-    private List<JyuSubChoice> subscriptionchoice;
+    private List<JyuSubscription> subscriptionchoice;
 
 }

@@ -1,106 +1,101 @@
 package com.stu.app.jyuapp.Model.Domain;
 
+import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVObject;
+
 import java.util.List;
 
-import cn.bmob.v3.BmobObject;
 
 /**
  * @author Jack
  * @time 2016/5/18 0018 16:20
  * @des TODO
  */
-public class JyuNews extends BmobObject {
+@AVClassName("JyuNews")
+public class JyuNews extends AVObject {
     //    public  JyuNews.Href_entity Href_Entity;
 
     public String getDate() {
-        return Date;
+        return getString("Date");
     }
 
     public void setDate(String date) {
-        Date = date;
+        put("Date",date) ;
     }
 
     public String getRootHref() {
-        return RootHref;
+        return  getString("RootHref");
     }
 
     public void setRootHref(String rootHref) {
-        RootHref = rootHref;
+
+        put("RootHref",rootHref);
     }
 
 
     public String getRootTitle() {
-        return RootTitle;
+        return getString("RootTitle");
     }
 
     public void setRootTitle(String rootTitle) {
-        RootTitle = rootTitle;
+        put("RootTitle",rootTitle);
     }
 
-    private String Date;
-
-    private long DateID;
-    private String Author;
-    private String From;
+//    private String Date;
+//
+//    private long DateID;
+//    private String Author;
+//    private String From;
 
     public long getDateID() {
-        return DateID;
+        return getLong("DateID");
     }
 
     public void setDateID(long dateID) {
-        DateID = dateID;
+        put("DateID",dateID);
     }
 
     public String getAuthor() {
-        return Author;
+        return getString("Author");
     }
 
     public void setAuthor(String author) {
-        Author = author;
+        put("Author",author);
     }
 
     public String getFrom() {
-        return From;
+        return getString("From");
     }
 
     public void setFrom(String from) {
-        From = from;
+        put("From",from);
     }
 
     public String getNewsContent() {
-        return NewsContent;
+        return getString("NewsContent");
     }
 
     public void setNewsContent(String newsContent) {
-        NewsContent = newsContent;
+        put("NewsContent",newsContent);
     }
 
-
-
     public String getGuid() {
-        return guid;
+        return getString("guid");
     }
 
     public void setGuid(String guid) {
-        this.guid = guid;
+        put("guid",guid);
     }
 
-    private String NewsContent;
 
     public List<String> getNewsImage() {
-        return NewsImage;
+        return getList("NewsImage");
     }
 
     public void setNewsImage(List<String> newsImage) {
-        NewsImage = newsImage;
+        put("NewsImage",newsImage);
+
     }
-
-    private List<String> NewsImage;
-    private String guid;
-
-
-    private String RootHref;
-    private String RootTitle;
 
 
 }

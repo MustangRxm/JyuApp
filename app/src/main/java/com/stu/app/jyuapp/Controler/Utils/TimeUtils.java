@@ -5,8 +5,10 @@ import android.content.Context;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.listener.GetServerTimeListener;
+import static java.lang.System.currentTimeMillis;
+
+//import cn.bmob.v3.Bmob;
+//import cn.bmob.v3.listener.GetServerTimeListener;
 
 /**
  * @author Jack
@@ -15,24 +17,11 @@ import cn.bmob.v3.listener.GetServerTimeListener;
  */
 
 public class TimeUtils {
-    public static String getServerTime(Context context, final String format){
-        final String[] times = {null};
+    public static String getLocalTime(Context context, final String format){
+        String times;
         SimpleDateFormat formatter = new SimpleDateFormat(format);
-       times[0] = formatter.format(new Date(System.currentTimeMillis()));
-        Bmob.getServerTime(context, new GetServerTimeListener() {
-            @Override
-            public void onSuccess(long l) {
-                SimpleDateFormat formatter = new SimpleDateFormat(format);
-
-                times[0] = formatter.format(new Date(l*1000l));
-            }
-
-            @Override
-            public void onFailure(int i, String s) {
-
-            }
-        });
-
-        return times[0];
+       times = formatter.format(new Date(currentTimeMillis()));
+        long l = System.currentTimeMillis();
+        return times;
     }
 }

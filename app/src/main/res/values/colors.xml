@@ -58,6 +58,6 @@
     <color name="et_divider_focused">@color/colorControlActivated</color>
     <color name="et_divider_not_focused">#FF6D6D6D</color>
     <color name="et_divider_disable">#FFC1C1C1</color>
-
-
+    <color name="tg_button_ischecked">#9e9e9e</color>
+    <color name="tg_button_unchecked">#1976d2</color>
 </resources>

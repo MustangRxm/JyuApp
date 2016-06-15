@@ -14,14 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.LogInCallback;
 import com.stu.app.jyuapp.Controler.Utils.KeyBoardUtils;
 import com.stu.app.jyuapp.Controler.Utils.SpTools;
 import com.stu.app.jyuapp.Controler.Utils.constantsVAR;
-import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.View.MainActivity;
-
-import cn.bmob.v3.listener.SaveListener;
 
 public class SignInActivity extends AppCompatActivity {
     private TextInputLayout userpwd_textInputLayout;
@@ -100,31 +100,40 @@ public class SignInActivity extends AppCompatActivity {
                 }
 
                 if (SignInFlag == 0x03) {
-                    final JyuUser user = new JyuUser();
-                    user.setUsername(userPhoneNum);
-                    user.setPassword(userPassword);
-                    user.setMobilePhoneNumber(userPhoneNum);
+////                    AVUser user = new AVUser();
+////                     JyuUser user = new JyuUser();
+//                    user.setUsername(userPhoneNum);
+//                    user.setPassword(userPassword);
+//                    user.setMobilePhoneNumber(userPhoneNum);
                     pb_log_in_wait.setVisibility(View.VISIBLE);
-                    user.login(SignInActivity.this, new SaveListener() {
+                    AVUser.logInInBackground(userPhoneNum, userPassword, new LogInCallback<AVUser>() {
                         @Override
-                        public void onSuccess() {
-                            pb_log_in_wait.setVisibility(View.GONE);
-                            SpTools.putBoolean(SignInActivity.this, constantsVAR.FirstTimeUse, false);
+                        public void done(AVUser avUser, AVException e) {
+                            if (e==null){
+                            SpTools.putBoolean(getApplicationContext(), constantsVAR.FirstTimeUse, false);
                             Toast.makeText(getApplicationContext(), "signin success", Toast.LENGTH_LONG).show();
-                            //                                    et_login_userName.setText(user.getUsername());
-                            //需要设置动画效果
-//                            JyuUser user_obtain = BmobUser.getCurrentUser(getApplicationContext(), JyuUser.class);
-//                            user_obtain.signOrLogin();
                             startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-                            Toast.makeText(getApplicationContext(), "signup fail::" + s, Toast.LENGTH_LONG).show();
-                            pb_log_in_wait.setVisibility(View.GONE);
+                            finish();}else {
+                                Toast.makeText(getApplicationContext(), "signup fail::" + e, Toast.LENGTH_LONG).show();
+                                pb_log_in_wait.setVisibility(View.GONE);
+                            }
                         }
                     });
+//                    user.login(SignInActivity.this, new SaveListener() {
+//                        @Override
+//                        public void onSuccess() {
+//                            SpTools.putBoolean(getApplicationContext(), constantsVAR.FirstTimeUse, false);
+//                            Toast.makeText(getApplicationContext(), "signin success", Toast.LENGTH_LONG).show();
+//                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+//                            finish();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int i, String s) {
+//                            Toast.makeText(getApplicationContext(), "signup fail::" + s, Toast.LENGTH_LONG).show();
+//                            pb_log_in_wait.setVisibility(View.GONE);
+//                        }
+//                    });
                 }
             }
         });

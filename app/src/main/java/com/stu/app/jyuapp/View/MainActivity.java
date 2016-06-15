@@ -208,12 +208,6 @@ public class MainActivity extends AppCompatActivity {
     private void initUI() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
         List<View> mViewsSource = new ArrayList<>();
-        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
-        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
-        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
-        //        mViewsSource.add(View.inflate(this, R.layout.item_vp, null));
-        //        mViewsSource.add( View.inflate(this,R.layout.activity_home_ui_horizontal_ntb,null));
-
         MainPagerAdapter adapter = new MainPagerAdapter(MainActivity.this, mViewsSource);
         List<Fragment> list = new ArrayList<Fragment>();
         list.add(new SchoolNewsFragment());

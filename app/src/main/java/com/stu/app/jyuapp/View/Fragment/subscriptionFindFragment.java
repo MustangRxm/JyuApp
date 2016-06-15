@@ -30,10 +30,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.listener.UpdateListener;
-
-import static cn.bmob.v3.BmobUser.getCurrentUser;
+import static com.avos.avoscloud.AVUser.getCurrentUser;
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_INVISIBLE;
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
@@ -84,8 +81,8 @@ public class subscriptionFindFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        JyuUser user =BmobUser.getCurrentUser(getContext(), JyuUser.class);
-        if ( user== null) {
+
+        if ( getCurrentUser(JyuUser.class)==null) {
             View SignInView = inflater.inflate(R.layout.fragment_please_signin, container, false);
             Button bt_please_signin = (Button) SignInView.findViewById(R.id.bt_please_signin);
             bt_please_signin.setOnClickListener(new View.OnClickListener() {
@@ -171,19 +168,20 @@ public class subscriptionFindFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
     public void UpdateUserSub(UpdateUserSub updateUserSub) {
-        JyuUser jyuUser = getCurrentUser(getContext(), JyuUser.class);
+        JyuUser jyuUser = getCurrentUser( JyuUser.class);
         jyuUser.setSubscription(updateUserSub.getMapList());
-        jyuUser.update(getContext(), new UpdateListener() {
-            @Override
-            public void onSuccess() {
-                Log.i("20160605", "update sub date success");
-            }
-
-            @Override
-            public void onFailure(int i, String s) {
-                Log.i("20160605", "update sub date fail::" + s);
-            }
-        });
+        jyuUser.saveInBackground();
+//        jyuUser.update(getContext(), new UpdateListener() {
+//            @Override
+//            public void onSuccess() {
+//                Log.i("20160605", "update sub date success");
+//            }
+//
+//            @Override
+//            public void onFailure(int i, String s) {
+//                Log.i("20160605", "update sub date fail::" + s);
+//            }
+//        });
     }
 
 }

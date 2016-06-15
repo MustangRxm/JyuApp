@@ -17,6 +17,7 @@ public class sch_news_ViewHolder extends BaseViewHolder {
         public ImageView iv_sch_news_cardview_item;
     public TextView tv_sch_news_title_cardview_item;
     public TextView tv_sch_news_date_cardview_item;
+    public TextView  tv_sch_news_from;
 
     public sch_news_ViewHolder(View itemView) {
         super(itemView);
@@ -25,8 +26,7 @@ public class sch_news_ViewHolder extends BaseViewHolder {
     @Override
     public void bindView(View itemView) {
         iv_sch_news_cardview_item = (ImageView) itemView.findViewById(R.id.iv_sch_news_cardview_item);
-//        sv_sch_news_cardview_item = (SimpleDraweeView) itemView.findViewById(sv_sch_news_cardview_item);
-//        itemView.findViewById(R.id.)
+        tv_sch_news_from = (TextView) itemView.findViewById(R.id.tv_sch_news_from);
         tv_sch_news_title_cardview_item = (TextView) itemView.findViewById(R.id.tv_sch_news_title_cardview_item);
         tv_sch_news_date_cardview_item = (TextView) itemView.findViewById(R.id.tv_sch_news_date_cardview_item);
 
