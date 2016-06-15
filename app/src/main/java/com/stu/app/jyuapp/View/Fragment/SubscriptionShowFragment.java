@@ -102,6 +102,8 @@ public class SubscriptionShowFragment extends Fragment {
     public SubscriptionShowFragment() {
     }
 
+
+
     private List<JyuSubscription> list_SubScriptionShowSource = null;
     Handler mHandler = new Handler() {
         @Override
@@ -190,6 +192,7 @@ public class SubscriptionShowFragment extends Fragment {
                 } else if ((dy < 0) && (lastState)) {
                     EventBus.getDefault().post(BOOM_VISIBLE);
                     lastState = false;
+
                 }
 
             }
@@ -204,10 +207,9 @@ public class SubscriptionShowFragment extends Fragment {
             lastState = false;
         }
     }
-
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubscriptionUrl(RequestSubscriptionContent content) {
-        List<JyuSubscription> list = content.getSubscriptioncontent();
+        List<JyuSubscription> list = content.getObjList();
         if (adapter == null) {
             Message msg = mHandler.obtainMessage();
             msg.what = INIT_RV_DATA;
@@ -224,7 +226,7 @@ public class SubscriptionShowFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubChoice(RequestSubscriptionChoice choice) {
-        List<JyuSubscription> list = choice.getSubscriptionchoice();
+        List<JyuSubscription> list = choice.getObjList();
         Message msg = mHandler.obtainMessage();
         msg.what = INIT_RV_DATA;
         msg.obj = list;
@@ -233,7 +235,7 @@ public class SubscriptionShowFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverVPdata(RequestVPdata requestVPdata) {
-        List<String> vpdata = requestVPdata.getVpdata();
+        List<String> vpdata = requestVPdata.getObjList();
         Message msg = mHandler.obtainMessage();
         msg.what = UPDATE_VP_DATA;
         msg.obj = vpdata;

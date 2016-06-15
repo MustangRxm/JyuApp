@@ -1,7 +1,5 @@
 package com.stu.app.jyuapp.Model.EventOBJ;
 
-import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
-
 import java.util.List;
 
 /**
@@ -10,17 +8,20 @@ import java.util.List;
  * @des TODO
  */
 
-public class RequestSubscriptionContent {
-
-
-    public RequestSubscriptionContent(List<JyuSubscription> subscriptioncontent) {
-        this.subscriptioncontent = subscriptioncontent;
+public class RequestSubscriptionContent  extends BaseRequestEvent{
+    public RequestSubscriptionContent(List objList) {
+        super(objList);
     }
 
-    public List<JyuSubscription> getSubscriptioncontent() {
-        return subscriptioncontent;
-    }
 
-    private List<JyuSubscription> subscriptioncontent;
+    //    public RequestSubscriptionContent(List<JyuSubscription> subscriptioncontent) {
+//        this.subscriptioncontent = subscriptioncontent;
+//    }
+//
+//    public List<JyuSubscription> getSubscriptioncontent() {
+//        return subscriptioncontent;
+//    }
+//
+//    private List<JyuSubscription> subscriptioncontent;
 
 }

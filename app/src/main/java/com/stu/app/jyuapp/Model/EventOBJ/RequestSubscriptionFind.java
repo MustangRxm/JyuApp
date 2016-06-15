@@ -1,7 +1,5 @@
 package com.stu.app.jyuapp.Model.EventOBJ;
 
-import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
-
 import java.util.List;
 
 /**
@@ -10,18 +8,21 @@ import java.util.List;
  * @des TODO
  */
 
-public class RequestSubscriptionFind {
-    public RequestSubscriptionFind(List<SubscriptionFind> subscriptionFindList) {
-        mSubscriptionFindList = subscriptionFindList;
+public class RequestSubscriptionFind extends BaseRequestEvent {
+    public RequestSubscriptionFind(List objList) {
+        super(objList);
     }
-
-    public List<SubscriptionFind> getSubscriptionFindList() {
-        return mSubscriptionFindList;
-    }
-
-    public void setSubscriptionFindList(List<SubscriptionFind> subscriptionFindList) {
-        mSubscriptionFindList = subscriptionFindList;
-    }
-
-    private List<SubscriptionFind> mSubscriptionFindList;
+    //    public RequestSubscriptionFind(List<SubscriptionFind> subscriptionFindList) {
+//        mSubscriptionFindList = subscriptionFindList;
+//    }
+//
+//    public List<SubscriptionFind> getSubscriptionFindList() {
+//        return mSubscriptionFindList;
+//    }
+//
+//    public void setSubscriptionFindList(List<SubscriptionFind> subscriptionFindList) {
+//        mSubscriptionFindList = subscriptionFindList;
+//    }
+//
+//    private List<SubscriptionFind> mSubscriptionFindList;
 }

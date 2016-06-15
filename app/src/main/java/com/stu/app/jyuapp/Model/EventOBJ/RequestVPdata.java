@@ -8,14 +8,17 @@ import java.util.List;
  * @des TODO
  */
 
-public class RequestVPdata {
-    public RequestVPdata(List<String> vpdata) {
-        Vpdata = vpdata;
+public class RequestVPdata extends BaseRequestEvent{
+    public RequestVPdata(List objList) {
+        super(objList);
     }
-
-    public List<String> getVpdata() {
-        return Vpdata;
-    }
-
-    private List<String> Vpdata;
+    //    public RequestVPdata(List<String> vpdata) {
+//        Vpdata = vpdata;
+//    }
+//
+//    public List<String> getVpdata() {
+//        return Vpdata;
+//    }
+//
+//    private List<String> Vpdata;
 }

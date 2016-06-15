@@ -109,7 +109,7 @@ public class getDataUtils {
         //先从网络加载数据,
         if (NetWorkUtils.isOpenNetWork(mContext)) {
             AVQuery<JyuNews> query_News = AVObject.getQuery(JyuNews.class);
-            query_News.whereContains("Date", Year_month).orderByDescending("Date").findInBackground(new FindCallback<JyuNews>() {
+            query_News.whereContains("RequestDate", Year_month).orderByDescending("RequestDate").findInBackground(new FindCallback<JyuNews>() {
                 @Override
                 public void done(List<JyuNews> list, AVException e) {
                     if (e == null) {

@@ -38,11 +38,11 @@
 //    }
 //
 //    public BmobDate getDate() {
-//        return Date;
+//        return RequestDate;
 //    }
 //
 //    public void setDate(BmobDate date) {
-//        Date = date;
+//        RequestDate = date;
 //    }
 //
 //    public List<Map<Contact_Type,String>> getContact() {
@@ -79,7 +79,7 @@
 //
 //    private List<String> imageUrl;
 //    private String location;
-//    private BmobDate Date;
+//    private BmobDate RequestDate;
 //    private List<Map<Contact_Type,String>> Contact;
 ////    private Comment Comment;
 //    //    private Shared  Shared;

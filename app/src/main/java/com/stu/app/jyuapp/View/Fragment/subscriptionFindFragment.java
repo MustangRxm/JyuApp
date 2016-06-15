@@ -1,7 +1,6 @@
 package com.stu.app.jyuapp.View.Fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,16 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.stu.app.jyuapp.Controler.Adapter.subscriptionfind_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionFind;
-import com.stu.app.jyuapp.Model.EventOBJ.UpdateUserSub;
+import com.stu.app.jyuapp.Model.EventOBJ.RequestUpdateUserSub;
 import com.stu.app.jyuapp.R;
-import com.stu.app.jyuapp.View.Activity.SignInActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -80,19 +77,6 @@ public class subscriptionFindFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-        if ( getCurrentUser(JyuUser.class)==null) {
-            View SignInView = inflater.inflate(R.layout.fragment_please_signin, container, false);
-            Button bt_please_signin = (Button) SignInView.findViewById(R.id.bt_please_signin);
-            bt_please_signin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getContext(), SignInActivity.class));
-                }
-            });
-            return SignInView;
-        } else {
             View view = inflater.inflate(R.layout.fragment_subscription_find, container, false);
             rv_subscriptionfind = (RecyclerView) view.findViewById(R.id.rv_subscriptionfind);
             linearLayoutManager = new LinearLayoutManager(getContext());
@@ -118,7 +102,6 @@ public class subscriptionFindFragment extends Fragment {
                 }
             });
             return view;
-        }
     }
 
 
@@ -154,7 +137,7 @@ public class subscriptionFindFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverSubList(RequestSubscriptionFind requestSubscriptionFind) {
-        List<SubscriptionFind> list = requestSubscriptionFind.getSubscriptionFindList();
+        List<SubscriptionFind> list = requestSubscriptionFind.getObjList();
         Log.i("20160604", "receiver sub find success size is ::" + list.size());
         if (mSubscriptionFindList == null) {
             mSubscriptionFindList = list;
@@ -167,9 +150,9 @@ public class subscriptionFindFragment extends Fragment {
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
-    public void UpdateUserSub(UpdateUserSub updateUserSub) {
+    public void UpdateUserSub(RequestUpdateUserSub requestUpdateUserSub) {
         JyuUser jyuUser = getCurrentUser( JyuUser.class);
-        jyuUser.setSubscription(updateUserSub.getMapList());
+        jyuUser.setSubscription(requestUpdateUserSub.getObjList());
         jyuUser.saveInBackground();
 //        jyuUser.update(getContext(), new UpdateListener() {
 //            @Override

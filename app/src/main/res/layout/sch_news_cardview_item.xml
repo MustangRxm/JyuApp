@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:gravity="bottom|end"
             android:background="#ffffff"
-            android:text="date"
+            android:text="requestDate"
             android:layout_marginLeft="10dp"
             android:layout_alignBottom="@+id/iv_sch_news_cardview_item"
             android:layout_toRightOf="@+id/tv_sch_news_from"

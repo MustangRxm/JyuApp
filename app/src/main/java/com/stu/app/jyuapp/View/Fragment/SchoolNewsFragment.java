@@ -19,7 +19,7 @@ import com.stu.app.jyuapp.Controler.Adapter.BaseRecyclerViewAdapter;
 import com.stu.app.jyuapp.Controler.Adapter.sch_news_App_RecyclerViewAdapter;
 import com.stu.app.jyuapp.Controler.Utils.getDataUtils;
 import com.stu.app.jyuapp.Model.Domain.JyuNews;
-import com.stu.app.jyuapp.Model.EventOBJ.Date;
+import com.stu.app.jyuapp.Model.EventOBJ.RequestDate;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestNewsData;
 import com.stu.app.jyuapp.R;
@@ -121,11 +121,11 @@ public class SchoolNewsFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void receiverNewsData(RequestNewsData data) {
-        year_month = data.getYear_month();
-        List nd = data.getList_sources();
+        year_month = (String) data.getObjT();
+        List nd = data.getObjList();
         if (nd.size() == 0) {
             TimeSub(year_month);
-            EventBus.getDefault().post(new Date(year_month));
+            EventBus.getDefault().post(new RequestDate(year_month));
         } else {
             this.mList.addAll(nd);
             mHandler.sendEmptyMessage(1);
@@ -133,9 +133,9 @@ public class SchoolNewsFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void RequestNewsAgain(Date date) {
+    public void RequestNewsAgain(RequestDate requestDate) {
 //        getDataUtils gdu = new getDataUtils(getContext());
-        getDataUtils.getNewsData(getContext(),date.getTime());
+        getDataUtils.getNewsData(getContext(), (String) requestDate.getObjT());
 
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -162,7 +162,7 @@ public class SchoolNewsFragment extends Fragment {
                     //update mList
                     srl_sch_news_app.setRefreshing(true);
                     TimeSub(year_month);
-                    EventBus.getDefault().post(new Date(year_month));
+                    EventBus.getDefault().post(new RequestDate(year_month));
                 }
             }
 

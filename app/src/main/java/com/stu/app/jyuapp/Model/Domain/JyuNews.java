@@ -16,11 +16,11 @@ public class JyuNews extends AVObject {
     //    public  JyuNews.Href_entity Href_Entity;
 
     public String getDate() {
-        return getString("Date");
+        return getString("RequestDate");
     }
 
     public void setDate(String date) {
-        put("Date",date) ;
+        put("RequestDate",date) ;
     }
 
     public String getRootHref() {
@@ -41,7 +41,7 @@ public class JyuNews extends AVObject {
         put("RootTitle",rootTitle);
     }
 
-//    private String Date;
+//    private String RequestDate;
 //
 //    private long DateID;
 //    private String Author;

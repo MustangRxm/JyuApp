@@ -9,7 +9,7 @@ import com.avos.avoscloud.AVUser;
 import com.bumptech.glide.Glide;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
-import com.stu.app.jyuapp.Model.EventOBJ.UpdateUserSub;
+import com.stu.app.jyuapp.Model.EventOBJ.RequestUpdateUserSub;
 import com.stu.app.jyuapp.Model.ViewHolder.BaseViewHolder;
 import com.stu.app.jyuapp.Model.ViewHolder.SubscriptionFind_ViewHolder;
 
@@ -75,12 +75,12 @@ public class subscriptionfind_RecyclerViewAdapter extends BaseRecyclerViewAdapte
                             sublist.remove(itemID);
                         }
                     }
-                    EventBus.getDefault().postSticky(new UpdateUserSub(sublist));
+                    EventBus.getDefault().postSticky(new RequestUpdateUserSub(sublist));
 
                 } else {
                     sublist = new ArrayList<String>();
                     sublist.add(itemID);
-                    EventBus.getDefault().postSticky(new UpdateUserSub(sublist));
+                    EventBus.getDefault().postSticky(new RequestUpdateUserSub(sublist));
                 }
 //                if (isChecked) {
 //                } else {

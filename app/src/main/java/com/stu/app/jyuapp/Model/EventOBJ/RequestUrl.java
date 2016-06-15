@@ -6,14 +6,14 @@ package com.stu.app.jyuapp.Model.EventOBJ;
  * @des TODO
  */
 
-public class RequestUrl {
-    public RequestUrl(String url) {
-        Url = url;
-    }
-
-    public String getUrl() {
-        return Url;
-    }
-
-    private String Url;
-}
+//public class RequestUrl {
+//    public RequestUrl(String url) {
+//        Url = url;
+//    }
+//
+//    public String getUrl() {
+//        return Url;
+//    }
+//
+//    private String Url;
+//}
