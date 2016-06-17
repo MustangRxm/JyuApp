@@ -2,22 +2,21 @@ package com.stu.app.jyuapp.View.Fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.stu.app.jyuapp.Controler.Adapter.subscriptionfind_RecyclerViewAdapter;
+import com.stu.app.jyuapp.Controler.Request.RequestSubFind;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
-import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestUpdateUserSub;
 import com.stu.app.jyuapp.R;
 
@@ -52,119 +51,107 @@ import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMe
 * 3.订阅事件
 *   3.1.如果某个订阅item被用户订阅，update用户个人订阅表,更新当前界面
 * */
-public class subscriptionFindFragment extends Fragment {
+public class subscriptionFindFragment extends BaseFragment {
+
     private List<SubscriptionFind> mSubscriptionFindList;
     private subscriptionfind_RecyclerViewAdapter adapter;
-    private RecyclerView rv_subscriptionfind;
+    private XRecyclerView rv_subscriptionfind;
     private LinearLayoutManager linearLayoutManager;
 
     public subscriptionFindFragment() {
-        // Required empty public constructor
     }
+//
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
+    private boolean lastState = false;
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-    private  boolean lastState=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_subscription_find, container, false);
-            rv_subscriptionfind = (RecyclerView) view.findViewById(R.id.rv_subscriptionfind);
-            linearLayoutManager = new LinearLayoutManager(getContext());
-            rv_subscriptionfind.setLayoutManager(linearLayoutManager);
-            rv_subscriptionfind.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                }
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    //1.往下滚，消失
-                    //2.往上滚，显示
-                    if ((dy>0)&&(!lastState)){
-                        lastState=true;
-                        EventBus.getDefault().post(BOOM_INVISIBLE);
-                    }else if ((dy<0)&&(lastState)){
-                        EventBus.getDefault().post(BOOM_VISIBLE);
-                        lastState=false;
-                    }
+        View view = inflater.inflate(R.layout.fragment_subscription_find, container, false);
+        InitView(view);
+        InitData();
+        InitEvent();
 
-                }
-            });
-            return view;
+        return view;
     }
 
-
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    if (rv_subscriptionfind != null) {
-                        if (adapter == null) {
-                            Log.i("20160604", "adapter is empty");
-                            adapter = new subscriptionfind_RecyclerViewAdapter(getContext(), mSubscriptionFindList, R.layout.fragment_subscription_find_item);
-                            rv_subscriptionfind.setAdapter(adapter);
+    private void InitEvent() {
+        rv_subscriptionfind.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                new RequestSubFind(getContext()) {
+                    @Override
+                    public void RequestSuccess(List<SubscriptionFind> list) {
+                        if (list.size() == 0) {
+                            Toast.makeText(getContext(), "没有更多数据了", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.i("20160604", "adapter no empty");
+                            mSubscriptionFindList.removeAll(mSubscriptionFindList);
+                            mSubscriptionFindList.addAll(list);
                             adapter.notifyDataSetChanged();
                         }
+                        rv_subscriptionfind.refreshComplete();
                     }
-                    break;
-                case 1:
 
-                    break;
+                }.RequestSubFindData();
             }
 
-        }
-    };
+            @Override
+            public void onLoadMore() {
+                rv_subscriptionfind.loadMoreComplete();
+            }
+        });
+        rv_subscriptionfind.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if ((dy > 0) && (!lastState)) {
+                    lastState = true;
+                    EventBus.getDefault().post(BOOM_INVISIBLE);
+                } else if ((dy < 0) && (lastState)) {
+                    EventBus.getDefault().post(BOOM_VISIBLE);
+                    lastState = false;
+                }
+            }
+        });
+    }
+
+    private void InitView(View view) {
+        rv_subscriptionfind = (XRecyclerView) view.findViewById(R.id.receclerview);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv_subscriptionfind.setLayoutManager(linearLayoutManager);
+        rv_subscriptionfind.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        rv_subscriptionfind.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+    }
+
+    private void InitData() {
+        new RequestSubFind(getContext()) {
+            public void RequestSuccess(List<SubscriptionFind> list) {
+                mSubscriptionFindList = list;
+                adapter = new subscriptionfind_RecyclerViewAdapter(getContext(), list, R.layout.fragment_subscription_find_item);
+                rv_subscriptionfind.setAdapter(adapter);
+            }
+        }.RequestSubFindData();
+    }
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void receiverBoomMenuNotify(RequestChangeBoomBtStatus.BoomMenuStatus boomMenuStatus){
-        if (boomMenuStatus== BOOM_NOTIFY){
-            lastState=false;
+    public void receiverBoomMenuNotify(RequestChangeBoomBtStatus.BoomMenuStatus boomMenuStatus) {
+        if (boomMenuStatus == BOOM_NOTIFY) {
+            lastState = false;
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void receiverSubList(RequestSubscriptionFind requestSubscriptionFind) {
-        List<SubscriptionFind> list = requestSubscriptionFind.getObjList();
-        Log.i("20160604", "receiver sub find success size is ::" + list.size());
-        if (mSubscriptionFindList == null) {
-            mSubscriptionFindList = list;
-            mHandler.sendEmptyMessage(0);
-        } else {
-            mSubscriptionFindList = list;
-            mHandler.sendEmptyMessage(1);
-        }
-
-    }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
     public void UpdateUserSub(RequestUpdateUserSub requestUpdateUserSub) {
-        JyuUser jyuUser = getCurrentUser( JyuUser.class);
+        JyuUser jyuUser = getCurrentUser(JyuUser.class);
         jyuUser.setSubscription(requestUpdateUserSub.getObjList());
         jyuUser.saveInBackground();
-//        jyuUser.update(getContext(), new UpdateListener() {
-//            @Override
-//            public void onSuccess() {
-//                Log.i("20160605", "update sub date success");
-//            }
-//
-//            @Override
-//            public void onFailure(int i, String s) {
-//                Log.i("20160605", "update sub date fail::" + s);
-//            }
-//        });
     }
-
 }

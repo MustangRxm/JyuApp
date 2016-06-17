@@ -55,8 +55,8 @@ public class SplashActivity extends AppCompatActivity {
         //下面两个步骤需要扔到线程里
         String year_month = getLocalTime(SplashActivity.this, "yyyy-MM");
         Log.i("20160601", "now time is ::" + year_month);
-        getDataUtils.getNewsData(SplashActivity.this,year_month);
-        getDataUtils.getSubcriptionFindData(this);
+//        getDataUtils.getNewsData(SplashActivity.this,year_month);
+//        getDataUtils.getSubcriptionFindData(this);
         getDataUtils.getUserSubcriptionContent(this,0);
         getDataUtils.getsubshowVPdata();
 

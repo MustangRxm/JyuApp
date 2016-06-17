@@ -12,13 +12,4 @@ public class RequestVPdata extends BaseRequestEvent{
     public RequestVPdata(List objList) {
         super(objList);
     }
-    //    public RequestVPdata(List<String> vpdata) {
-//        Vpdata = vpdata;
-//    }
-//
-//    public List<String> getVpdata() {
-//        return Vpdata;
-//    }
-//
-//    private List<String> Vpdata;
 }

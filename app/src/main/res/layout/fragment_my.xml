@@ -4,22 +4,22 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:background="#ffffff"
               tools:context=".View.Fragment.myFragment">
 
-    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="@string/hello_blank_fragment"/>-->
-    <android.support.v7.widget.CardView
-        android:id="@+id/cv_user_info"
-        android:clickable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/cv_user_info"-->
+        <!--android:clickable="true"-->
+
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
         <RelativeLayout
+            android:clickable="true"
+            android:id="@+id/rl_user_info"
+            android:background="#7b584c"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/iv_user_info_headPortrait"
@@ -33,10 +33,12 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/iv_user_info_headPortrait"
                 android:text="username"
+                android:textColor="#ffffff"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
             <TextView
+                android:textColor="#ffffff"
                 android:id="@+id/tv_user_info_introduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +48,7 @@
                 android:text="userintroduction"/>
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    <!--</android.support.v7.widget.CardView>-->
 
     <LinearLayout
         android:layout_marginTop="30dp"
@@ -55,14 +57,18 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:layout_marginTop="10dp"
+            android:background="@drawable/layout_background_line"
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/ll_myFragment_Collect"
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            app:elevation="5dp">
+            >
 
             <RelativeLayout
+                android:background="#7c4dff"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
@@ -90,6 +96,7 @@
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
+                    android:textColor="#ffffff"
                     android:id="@+id/tv_myfragment_collect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,7 +112,10 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_marginTop="10dp"
+
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/ll_myFragment_setting"
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"
@@ -113,6 +123,7 @@
             app:elevation="5dp">
 
             <RelativeLayout
+                android:background="#e1bee7"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
@@ -140,10 +151,11 @@
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
+                    android:textColor="#ffffff"
                     android:id="@+id/tv_myfragment_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="设置"
+                    android:text="个人资料"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginLeft="26dp"
@@ -155,7 +167,10 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_marginTop="10dp"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/ll_myFragment_feedback"
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"
@@ -163,6 +178,7 @@
             app:elevation="5dp">
 
             <RelativeLayout
+                android:background="#ff5722"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
@@ -190,6 +206,7 @@
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
+                    android:textColor="#ffffff"
                     android:id="@+id/tv_myfragment_feedback"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -203,8 +220,68 @@
                     android:layout_toEndOf="@+id/iv_myfragment_ic_feedback"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
-            android:layout_marginTop="10dp"
+
+            android:layout_marginTop="1dp"
+
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/ll_myFragment_update"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            app:elevation="5dp">
+
+            <RelativeLayout
+                android:background="#f44336"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:id="@+id/iv_myfragment_ic_update"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_feedback"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_myfragment_ic_comein_update"
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
+                    android:src="@mipmap/ic_comein"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
+
+                <TextView
+                    android:textColor="#ffffff"
+                    android:id="@+id/tv_myfragment_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="软件更新"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginStart="26dp"
+                    android:layout_alignTop="@+id/iv_myfragment_ic_comein_update"
+                    android:layout_toRightOf="@+id/iv_myfragment_ic_update"
+                    android:layout_toEndOf="@+id/iv_myfragment_ic_update"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/ll_myFragment_signup"
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"
@@ -212,6 +289,7 @@
             app:elevation="5dp">
 
             <RelativeLayout
+                android:background="#4caf50"
                 android:id="@+id/rl_myfragment_ic_signup"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -240,6 +318,7 @@
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
+                    android:textColor="#ffffff"
                     android:id="@+id/tv_myfragment_signup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -253,5 +332,7 @@
                     android:layout_toEndOf="@+id/iv_myfragment_ic_signup"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
+
+
     </LinearLayout>
 </LinearLayout>

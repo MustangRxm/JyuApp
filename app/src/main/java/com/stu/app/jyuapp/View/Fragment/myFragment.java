@@ -4,7 +4,6 @@ package com.stu.app.jyuapp.View.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +37,8 @@ public class myFragment extends Fragment implements View.OnClickListener {
         TextView tv_user_info_nickName = (TextView) view.findViewById(R.id.tv_user_info_nickName);
         TextView tv_user_info_introduction = (TextView) view.findViewById(R.id.tv_user_info_introduction);
         RelativeLayout rl_myfragment_ic_signup = (RelativeLayout) view.findViewById(R.id.rl_myfragment_ic_signup);
-        CardView cv_user_info = (CardView) view.findViewById(R.id.cv_user_info);
+//        CardView cv_user_info = (CardView) view.findViewById(R.id.cv_user_info);
+        RelativeLayout rl_user_info= (RelativeLayout) view.findViewById(R.id.rl_user_info);
         rl_myfragment_ic_signup.setOnClickListener(this);
 
         jyuUser = JyuUser.getCurrentUser(JyuUser.class);
@@ -58,7 +58,7 @@ public class myFragment extends Fragment implements View.OnClickListener {
                 tv_user_info_introduction.setText(jyuUser.getUserIntroduction());
             }
         }
-        cv_user_info.setOnClickListener(new View.OnClickListener() {
+        rl_user_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (jyuUser == null) {

@@ -9,6 +9,7 @@ import com.stu.app.jyuapp.Model.Domain.JyuNews;
 import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
 import com.stu.app.jyuapp.Model.Domain.JyuUser;
 import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
+import com.stu.app.jyuapp.Model.Domain.advertising;
 
 /**
  * Created by 06peng on 2015/6/24.
@@ -22,6 +23,7 @@ public class InitApplication extends Application {
         super.onCreate();
         AVUser.alwaysUseSubUserClass(JyuUser.class);
         AVObject.registerSubclass(JyuNews.class);
+        AVObject.registerSubclass(advertising.class);
         AVObject.registerSubclass(JyuSubscription.class);
         AVObject.registerSubclass(SubscriptionFind.class);
         // 初始化参数依次为 this, AppId, AppKey

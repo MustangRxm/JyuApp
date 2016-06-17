@@ -37,8 +37,6 @@ public class sch_news_App_RecyclerViewAdapter extends BaseRecyclerViewAdapter {
         JyuNews item = list_sourse.get(position);
         holder.getView().setTag(position);
         List<String> list_img = item.getNewsImage();
-//        String list_img = item.getNewsImage();
-
         sch_news_ViewHolder mholder = (sch_news_ViewHolder) holder;
         mholder.setObj(item);
         if (list_img.size() == 0) {
@@ -49,7 +47,7 @@ public class sch_news_App_RecyclerViewAdapter extends BaseRecyclerViewAdapter {
         String[] Titles = item.getRootTitle().split(" ");
         mholder.tv_sch_news_title_cardview_item.setText(Titles[0]);
         mholder.tv_sch_news_date_cardview_item.setText(item.getDate());
-        mholder.tv_sch_news_from.setText(item.getFrom());
+        mholder.tv_sch_news_from.setText(item.getFrom().trim());
     }
 
 }

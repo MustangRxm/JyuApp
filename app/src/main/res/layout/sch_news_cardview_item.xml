@@ -1,99 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--<android.support.v7.widget.CardView-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:fresco="http://schemas.android.com/apk/res-auto"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--xmlns:fresco="http://schemas.android.com/apk/res-auto"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
 <!--android:layout_marginTop="1dp"-->
-    <!--app:cardElevation="1dp"-->
-    <!--app:cardUseCompatPadding="true"-->
+<!--app:cardElevation="1dp"-->
+<!--app:cardUseCompatPadding="true"-->
 
 
-    <!--&gt;-->
+<!--&gt;-->
 
-    <RelativeLayout
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
     android:background="#ffffff"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_marginTop="1dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-     >
+    >
 
-        <ImageView
-            android:id="@+id/iv_sch_news_cardview_item"
-            android:layout_width="100dp"
-            android:layout_margin="10dp"
-            android:layout_height="100dp"
-            android:elevation="3dp"
-            />
+    <ImageView
+        android:id="@+id/iv_sch_news_cardview_item"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:elevation="3dp"
+        />
+
     <TextView
         android:id="@+id/tv_sch_news_from"
         android:layout_width="wrap_content"
-        android:text="from"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/iv_sch_news_cardview_item"
         android:layout_toRightOf="@+id/iv_sch_news_cardview_item"
 
-        android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_sch_news_title_cardview_item"
-            android:layout_width="wrap_content"
-            android:maxWidth="260dp"
-            android:text="title"
+        android:text="from"/>
 
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/iv_sch_news_cardview_item"
-            android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/tv_sch_news_title_cardview_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
 
-            android:background="#ffffff"
-            android:elegantTextHeight="true"
+        android:layout_toRightOf="@+id/iv_sch_news_cardview_item"
+        android:background="#ffffff"
+        android:elegantTextHeight="true"
 
-            android:textColor="#262525"
-            android:textSize="18sp"
-            android:transformPivotX="3dp"/>
+        android:maxWidth="260dp"
+        android:text="title"
+android:maxLength="2"
+        android:textColor="#262525"
+        android:textSize="16sp"
+        android:transformPivotX="3dp"/>
 
-        <!--<View-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@drawable/divider_line"-->
-            <!--/>-->
-        <TextView
-            android:id="@+id/tv_sch_news_date_cardview_item"
-            android:layout_width="wrap_content"
-            android:layout_gravity="end"
-            android:layout_height="wrap_content"
-            android:gravity="bottom|end"
-            android:background="#ffffff"
-            android:text="requestDate"
-            android:layout_marginLeft="10dp"
-            android:layout_alignBottom="@+id/iv_sch_news_cardview_item"
-            android:layout_toRightOf="@+id/tv_sch_news_from"
-            android:textSize="13sp"
-            android:textColor="#616161"
-            android:transformPivotX="3dp"/>
-        <!--android:elegantTextHeight="true"-->
-        <!--android:elevation="3dp"-->
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:background="@drawable/divider_line"-->
-        <!--android:elevation="3dp"-->
-        <!--android:layout_height="4dp"/>-->
-        <!--<TextView-->
-        <!--android:layout_gravity="center"-->
-        <!--android:gravity="center"-->
-        <!--android:lines="3"-->
+    <!--<View-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:background="@drawable/divider_line"-->
+    <!--/>-->
 
-        <!--android:textSize="10sp"-->
-        <!--android:ellipsize="end"-->
-        <!--android:id="@+id/tv_sch_news_content_cardview_item"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_weight="2"-->
-        <!--android:layout_height="0dp"/>-->
+    <TextView
+        android:id="@+id/tv_sch_news_date_cardview_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_sch_news_from"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="end"
+        android:gravity="bottom|end"
 
-        <!--</LinearLayout>-->
+        android:layout_toRightOf="@+id/tv_sch_news_from"
+        android:background="#ffffff"
+
+        android:text="requestDate"
+        android:textSize="13sp"
+        android:transformPivotX="3dp"/>
+    <!--android:elegantTextHeight="true"-->
+    <!--android:elevation="3dp"-->
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:background="@drawable/divider_line"-->
+    <!--android:elevation="3dp"-->
+    <!--android:layout_height="4dp"/>-->
+    <!--<TextView-->
+    <!--android:layout_gravity="center"-->
+    <!--android:gravity="center"-->
+    <!--android:lines="3"-->
+
+    <!--android:textSize="10sp"-->
+    <!--android:ellipsize="end"-->
+    <!--android:id="@+id/tv_sch_news_content_cardview_item"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_weight="2"-->
+    <!--android:layout_height="0dp"/>-->
+
+    <!--</LinearLayout>-->
 
 
-    </RelativeLayout>
+</RelativeLayout>
 
-<!--</android.support.v7.widget.CardView>-->
+    <!--</android.support.v7.widget.CardView>-->

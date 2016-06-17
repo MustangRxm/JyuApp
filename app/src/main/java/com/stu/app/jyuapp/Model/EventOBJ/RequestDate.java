@@ -6,21 +6,8 @@ package com.stu.app.jyuapp.Model.EventOBJ;
  * @des TODO
  */
 
-public class RequestDate extends BaseRequestEvent {
-    public RequestDate(Object objT) {
-        super(objT);
-    }
-    //    public RequestDate(String time) {
-//        this.time = time;
+//public class RequestDate extends BaseRequestEvent {
+//    public RequestDate(Object objT) {
+//        super(objT);
 //    }
-//
-//    private String time;
-//
-//    public String getTime() {
-//        return time;
-//    }
-//
-//    public void setTime(String time) {
-//        this.time = time;
-//    }
-}
+//}

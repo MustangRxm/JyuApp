@@ -14,14 +14,4 @@ public class RequestSubscriptionContent  extends BaseRequestEvent{
     }
 
 
-    //    public RequestSubscriptionContent(List<JyuSubscription> subscriptioncontent) {
-//        this.subscriptioncontent = subscriptioncontent;
-//    }
-//
-//    public List<JyuSubscription> getSubscriptioncontent() {
-//        return subscriptioncontent;
-//    }
-//
-//    private List<JyuSubscription> subscriptioncontent;
-
 }

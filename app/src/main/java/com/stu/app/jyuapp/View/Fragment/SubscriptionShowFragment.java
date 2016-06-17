@@ -5,30 +5,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.avos.avoscloud.AVUser;
-import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
-import com.cundong.recyclerview.RecyclerViewUtils;
-import com.nightonke.boommenu.BoomMenuButton;
+import com.avos.avoscloud.AVException;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.stu.app.jyuapp.Controler.Adapter.AdViewPagerAdapter;
 import com.stu.app.jyuapp.Controler.Adapter.BaseRecyclerViewAdapter;
 import com.stu.app.jyuapp.Controler.Adapter.subscriptionshow_RecyclerViewAdapter;
-import com.stu.app.jyuapp.Controler.Utils.getDataUtils;
+import com.stu.app.jyuapp.Controler.Request.RequestAD;
+import com.stu.app.jyuapp.Controler.Request.RequestSubContent;
 import com.stu.app.jyuapp.Model.Domain.JyuSubscription;
-import com.stu.app.jyuapp.Model.Domain.JyuUser;
+import com.stu.app.jyuapp.Model.Domain.advertising;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus;
-import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionChoice;
-import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionContent;
-import com.stu.app.jyuapp.Model.EventOBJ.RequestVPdata;
 import com.stu.app.jyuapp.R;
 import com.stu.app.jyuapp.View.Activity.WebsiteContent;
 
@@ -36,7 +31,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -45,141 +39,36 @@ import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMe
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_NOTIFY;
 import static com.stu.app.jyuapp.Model.EventOBJ.RequestChangeBoomBtStatus.BoomMenuStatus.BOOM_VISIBLE;
 
-//import com.stu.app.jyuapp.Model.EventOBJ.RequestSubscriptionChoice;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 
-/*方案1
-* 1.获取用户订阅表
-* 2.将表中xml下载
-* 3.domain解析
-* 4.按pushdata排序
-* 5.show
-*方案2
-* 客户端
-* 1.获取用户订阅表
-* 2.将用户的id发给服务端请求订阅数据
-* 3.flask生成json返回
-* 服务器
-* 1.接收一个订阅id列表
-* 2.查询bmob,找链接，处理xml，抓item,排序,返回
-*
-*
-*
-*
-* **/
-
-public class SubscriptionShowFragment extends Fragment {
-    private RecyclerView rv_subscription_show;
+public class SubscriptionShowFragment extends BaseFragment {
+    private XRecyclerView rv_subscription_show;
     private LinearLayoutManager linearLayoutManager;
-    private SwipeRefreshLayout srl_subscription;
-    private final int INIT_RV_DATA = 0x101;
-    private final int UPDATE_RV_DATA = 0x102;
-    private final int INIT_VP_DATA = 0x104;
-    private final int UPDATE_VP_DATA = 0x108;
     private subscriptionshow_RecyclerViewAdapter adapter = null;
-    private BoomMenuButton boomMenuButton;
     private View adVP;
     private ViewPager ADviewPager;
     private AdViewPagerAdapter ADadapter;
-    private List<String> ADlistSource;
+    private List<advertising> ADlistSource;
     private CircleIndicator indicator;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
+    private int REQUEST_ITEM_COUNT = 0;
+    private List<JyuSubscription> list_SubScriptionShowSource = null;
 
     public SubscriptionShowFragment() {
     }
 
-
-
-    private List<JyuSubscription> list_SubScriptionShowSource = null;
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case INIT_RV_DATA:
-                    list_SubScriptionShowSource = (List<JyuSubscription>) msg.obj;
-                    adapter = new subscriptionshow_RecyclerViewAdapter(getContext(), list_SubScriptionShowSource, R.layout.fragment_subscription_show_item);
-                    HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(adapter);
-                    rv_subscription_show.setAdapter(headerAndFooterRecyclerViewAdapter);
-                    RecyclerViewUtils.setHeaderView(rv_subscription_show, adVP);
-                    adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            Intent intent = new Intent(getContext(), WebsiteContent.class);
-                            list_SubScriptionShowSource.get(position).getRoot_link();
-                            intent.putExtra("url", list_SubScriptionShowSource.get(position).getLink());
-                            startActivity(intent);
-                        }
-                    });
-                    srl_subscription.setRefreshing(false);
-                    break;
-                case UPDATE_RV_DATA:
-                    list_SubScriptionShowSource.removeAll(list_SubScriptionShowSource);
-                    list_SubScriptionShowSource.addAll((List<JyuSubscription>) msg.obj);
-                    adapter.notifyDataSetChanged();
-                    srl_subscription.setRefreshing(false);
-                    break;
-                case UPDATE_VP_DATA:
-                    if (ADlistSource != null) {
-                        ADlistSource.removeAll(ADlistSource);
-                        ADlistSource.addAll((List<String>) msg.obj);
-                    }
-                    ADadapter.notifyDataSetChanged();
-                    srl_subscription.setRefreshing(false);
-                    break;
-            }
-
-        }
-    };
     private boolean lastState = false;
-    private int PageNum = 0;
+//    private int PageNum = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_subscription_show, container, false);
-        rv_subscription_show = (RecyclerView) view.findViewById(R.id.rv_subscription_show);
-        adVP = View.inflate(getContext(), R.layout.fragment_subscription_show_ad_viewpager, null);
-        indicator = (CircleIndicator) adVP.findViewById(R.id.ci_subscription_show_ad);
-        ADviewPager = (ViewPager) adVP.findViewById(R.id.vp_subscription_show_ad);
-        ADlistSource = new ArrayList<>();
-        ADadapter = new AdViewPagerAdapter(getContext(), ADlistSource);
-        ADviewPager.setAdapter(ADadapter);
-        indicator.setViewPager(ADviewPager);
-        ADadapter.registerDataSetObserver(indicator.getDataSetObserver());
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        srl_subscription = (SwipeRefreshLayout) view.findViewById(R.id.srl_subscription);
-        srl_subscription.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (AVUser.getCurrentUser(JyuUser.class) != null) {
-                    getDataUtils.getUserSubcriptionContent(getContext(),0);
-                    PageNum=0;
-                    getDataUtils.getsubshowVPdata();
-                } else {
-                    srl_subscription.setRefreshing(false);
-                }
-            }
 
-        });
+        InitView(view);
+        InitData();
+        InitEvent();
+
         rv_subscription_show.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -192,13 +81,129 @@ public class SubscriptionShowFragment extends Fragment {
                 } else if ((dy < 0) && (lastState)) {
                     EventBus.getDefault().post(BOOM_VISIBLE);
                     lastState = false;
-
                 }
-
             }
         });
         rv_subscription_show.setLayoutManager(linearLayoutManager);
         return view;
+    }
+
+    private void InitEvent() {
+        rv_subscription_show.addHeaderView(adVP);
+        rv_subscription_show.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                REQUEST_ITEM_COUNT=0;
+                RequestSubContent mRequestSubContent = new RequestSubContent(getContext(),REQUEST_ITEM_COUNT);
+                mRequestSubContent.setOnRequestListener(new RequestSubContent.OnRequestSuccessListener() {
+                    @Override
+                    public void done(List<JyuSubscription> list, AVException e) {
+                        list_SubScriptionShowSource.removeAll(list_SubScriptionShowSource);
+                        list_SubScriptionShowSource.addAll(list);
+                        REQUEST_ITEM_COUNT+=list.size();
+                            adapter.notifyDataSetChanged();
+                        rv_subscription_show.refreshComplete();
+                    }
+                });
+                mRequestSubContent.RequestNewsData();
+            }
+
+            @Override
+            public void onLoadMore() {
+                RequestSubContent mRequestSubContent = new RequestSubContent(getContext(),REQUEST_ITEM_COUNT);
+                mRequestSubContent.setOnRequestListener(new RequestSubContent.OnRequestSuccessListener() {
+                    @Override
+                    public void done(List<JyuSubscription> list, AVException e) {
+                        list_SubScriptionShowSource.addAll(list);
+                        REQUEST_ITEM_COUNT+=list.size();
+                        adapter.notifyDataSetChanged();
+                        rv_subscription_show.loadMoreComplete();
+                    }
+                });
+                mRequestSubContent.RequestNewsData();
+            }
+        });
+    }
+
+    private void InitData() {
+        RequestSubContent mRequestSubContent = new RequestSubContent(getContext(),REQUEST_ITEM_COUNT);
+        mRequestSubContent.setOnRequestListener(new RequestSubContent.OnRequestSuccessListener() {
+            @Override
+            public void done(List<JyuSubscription> list, AVException e) {
+                list_SubScriptionShowSource = list;
+                REQUEST_ITEM_COUNT+=list.size();
+                adapter = new subscriptionshow_RecyclerViewAdapter(getContext(), list_SubScriptionShowSource, R.layout.fragment_subscription_show_item);
+                adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getContext(), WebsiteContent.class);
+                        list_SubScriptionShowSource.get(position).getRoot_link();
+                        intent.putExtra("url", list_SubScriptionShowSource.get(position).getLink());
+                        startActivity(intent);
+                    }
+                });
+                rv_subscription_show.setAdapter(adapter);
+            }
+        });
+        mRequestSubContent.RequestNewsData();
+
+            new RequestAD(getContext()) {
+            @Override
+            public void RequestSuccess(List<advertising> list) {
+                Log.i("20160617","list size");
+                ADlistSource = list;
+//            ADlistSource = new ArrayList<>();
+            ADadapter = new AdViewPagerAdapter(getContext(),adVP, list);
+            ADviewPager.setAdapter(ADadapter);
+            indicator.setViewPager(ADviewPager);
+            ADadapter.registerDataSetObserver(indicator.getDataSetObserver());
+                mHandler.sendEmptyMessageDelayed(0,2000);
+//                ADviewPager.setCurrentItem();
+            }
+        }.RequestADData();
+//
+    }
+    private Boolean VP_FLAG=true;
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what==0) {
+                mHandler.removeMessages(0);
+                int currentNum =ADviewPager.getCurrentItem();
+                int totalNum = ADlistSource.size();
+//                Log.i("20160617","currentNum: "+currentNum+"  totalNUM:::  "+ totalNum);
+                if (currentNum+1==totalNum){
+                    VP_FLAG=false;
+                }
+                if (currentNum==0){
+                    VP_FLAG=true;
+                }
+
+                if (VP_FLAG){
+                    currentNum++;
+                }
+                else {
+                    currentNum--;
+                }
+                ADviewPager.setCurrentItem(currentNum);
+                mHandler.sendEmptyMessageDelayed(0,4000);
+            }
+
+        }
+    };
+
+    private void InitView(View view) {
+        rv_subscription_show = (XRecyclerView) view.findViewById(R.id.recyclerview);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv_subscription_show.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        rv_subscription_show.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+        adVP = View.inflate(getContext(), R.layout.fragment_subscription_show_ad_viewpager, null);
+        indicator = (CircleIndicator) adVP.findViewById(R.id.ci_subscription_show_ad);
+        ADviewPager = (ViewPager) adVP.findViewById(R.id.vp_subscription_show_ad);
+
+
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -206,40 +211,5 @@ public class SubscriptionShowFragment extends Fragment {
         if (boomMenuStatus == BOOM_NOTIFY) {
             lastState = false;
         }
-    }
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void receiverSubscriptionUrl(RequestSubscriptionContent content) {
-        List<JyuSubscription> list = content.getObjList();
-        if (adapter == null) {
-            Message msg = mHandler.obtainMessage();
-            msg.what = INIT_RV_DATA;
-            msg.obj = list;
-            mHandler.sendMessage(msg);
-        } else {
-            Message msg = mHandler.obtainMessage();
-            msg.what = UPDATE_RV_DATA;
-            msg.obj = list;
-            mHandler.sendMessage(msg);
-
-        }
-    }
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void receiverSubChoice(RequestSubscriptionChoice choice) {
-        List<JyuSubscription> list = choice.getObjList();
-        Message msg = mHandler.obtainMessage();
-        msg.what = INIT_RV_DATA;
-        msg.obj = list;
-        mHandler.sendMessage(msg);
-    }
-
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void receiverVPdata(RequestVPdata requestVPdata) {
-        List<String> vpdata = requestVPdata.getObjList();
-        Message msg = mHandler.obtainMessage();
-        msg.what = UPDATE_VP_DATA;
-        msg.obj = vpdata;
-        mHandler.sendMessage(msg);
-
     }
 }

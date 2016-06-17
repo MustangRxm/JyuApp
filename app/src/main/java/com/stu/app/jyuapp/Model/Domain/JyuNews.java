@@ -16,7 +16,7 @@ public class JyuNews extends AVObject {
     //    public  JyuNews.Href_entity Href_Entity;
 
     public String getDate() {
-        return getString("RequestDate");
+        return getString("Date");
     }
 
     public void setDate(String date) {

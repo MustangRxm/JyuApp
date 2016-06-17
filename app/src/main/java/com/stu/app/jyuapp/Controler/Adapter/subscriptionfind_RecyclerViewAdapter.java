@@ -2,6 +2,7 @@ package com.stu.app.jyuapp.Controler.Adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -12,6 +13,7 @@ import com.stu.app.jyuapp.Model.Domain.SubscriptionFind;
 import com.stu.app.jyuapp.Model.EventOBJ.RequestUpdateUserSub;
 import com.stu.app.jyuapp.Model.ViewHolder.BaseViewHolder;
 import com.stu.app.jyuapp.Model.ViewHolder.SubscriptionFind_ViewHolder;
+import com.stu.app.jyuapp.View.Activity.SignInActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -82,10 +84,10 @@ public class subscriptionfind_RecyclerViewAdapter extends BaseRecyclerViewAdapte
                     sublist.add(itemID);
                     EventBus.getDefault().postSticky(new RequestUpdateUserSub(sublist));
                 }
-//                if (isChecked) {
-//                } else {
-//                }
-            }
+            }else {
+                    mContext.startActivity(new Intent(mContext, SignInActivity.class));
+
+                }
         }
         });
     }
